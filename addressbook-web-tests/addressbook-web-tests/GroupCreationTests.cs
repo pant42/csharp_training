@@ -4,13 +4,14 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using NUnit.Framework;
 using OpenQA.Selenium;
+using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.Support.UI;
 
-namespace addressbook_web_tests
+namespace WebAddressbookTests
 {
     [TestFixture]
-    public class UntitledTestCase
+    public class GroupCreationTests
     {
         private IWebDriver driver;
         private StringBuilder verificationErrors;
@@ -20,7 +21,7 @@ namespace addressbook_web_tests
         [SetUp]
         public void SetupTest()
         {
-            driver = new FirefoxDriver();
+            driver = new ChromeDriver();
             baseURL = "http://localhost/addressbook/";
             verificationErrors = new StringBuilder();
         }
@@ -40,7 +41,7 @@ namespace addressbook_web_tests
         }
 
         [Test]
-        public void TheUntitledTestCaseTest()
+        public void GroupCreationTest()
         {
             driver.Navigate().GoToUrl(baseURL);
             driver.FindElement(By.Name("user")).Click();
