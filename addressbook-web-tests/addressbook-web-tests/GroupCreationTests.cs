@@ -44,23 +44,29 @@ namespace WebAddressbookTests
         public void GroupCreationTest()
         {
             OpenHomePage();
-            Login(new AccountData ("admin","secret" ));
+            Login(new AccountData("admin", "secret"));
             GoToGropPage();
             InitNewGroupCreation();
 
             GroupData group = new GroupData("aaa");
-                                group.Header = "ddd";
-                                group.Footer = "fff";
+            group.Header = "ddd";
+            group.Footer = "fff";
 
             FillGroupForm(group);
             SubmitGroupCreation();
             ReturnToGroupsPage();
+            Logout();
+        }
+
+        private void Logout()
+        {
+            driver.FindElement(By.LinkText("Logout")).Click();
         }
 
         private void ReturnToGroupsPage()
         {
             driver.FindElement(By.LinkText("groups")).Click();
-            driver.FindElement(By.LinkText("Logout")).Click();
+            
         }
 
         private void SubmitGroupCreation()
