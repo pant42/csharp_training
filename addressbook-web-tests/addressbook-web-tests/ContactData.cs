@@ -2,7 +2,7 @@
 
 namespace WebAddressbookTests
 {
-    internal class ContactData
+    public class ContactData
     {
         private string firstname;
         private string lastname;

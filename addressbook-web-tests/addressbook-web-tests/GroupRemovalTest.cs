@@ -17,19 +17,7 @@ namespace WebAddressbookTests
             SelectGroupByIndex(1);
             RemoveGroup();
             ReturnToGroupsPage();
+            Logout();
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
     }
 }

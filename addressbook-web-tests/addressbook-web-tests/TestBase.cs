@@ -9,6 +9,7 @@ namespace WebAddressbookTests
 {
     public class TestBase
     {
+
         protected IWebDriver driver;
         private StringBuilder verificationErrors;
         protected string baseURL;
@@ -40,6 +41,7 @@ namespace WebAddressbookTests
             driver.Navigate().GoToUrl(baseURL);
         }
 
+        // Методы Логин- Логаут
         protected void Login(AccountData account)
         {
             driver.FindElement(By.Name("user")).Click();
@@ -54,6 +56,8 @@ namespace WebAddressbookTests
         {
             driver.FindElement(By.LinkText("Logout")).Click();
         }
+        
+        //Методы для Тестов Групп
         protected void GoToGroupPage()
         {
             driver.FindElement(By.LinkText("groups")).Click();
@@ -91,6 +95,43 @@ namespace WebAddressbookTests
         protected void RemoveGroup()
         {
             driver.FindElement(By.Name("delete")).Click();
+        }
+
+        //Методы для Тестов Контактов
+        protected void GoToContactPage()
+        {
+            driver.FindElement(By.LinkText("home")).Click();
+        }
+        protected void SubmitContactCreation()
+        {
+            driver.FindElement(By.XPath("//div[@id='content']/form/input[20]")).Click();
+        }
+        protected void InitNewContactCreation()
+        {
+            driver.FindElement(By.LinkText("add new")).Click();
+        }
+
+        protected void FillContactForm(ContactData contact)
+        {
+            driver.FindElement(By.Name("firstname")).Click();
+            driver.FindElement(By.Name("firstname")).Clear();
+            driver.FindElement(By.Name("firstname")).SendKeys(contact.Firstname);
+            driver.FindElement(By.Name("lastname")).Click();
+            driver.FindElement(By.Name("lastname")).Clear();
+            driver.FindElement(By.Name("lastname")).SendKeys(contact.Lastname);
+        }
+
+        protected void SelectContactByIndex(string contactId)
+        {
+            driver.FindElement(By.Id(contactId)).Click();
+        }
+        protected void RemoveContact()
+        {
+            driver.FindElement(By.XPath("//input[@value='Delete']")).Click();
+        }
+        protected void ReturnToContactsPage()
+        {
+            driver.FindElement(By.LinkText("home")).Click();
         }
 
 
