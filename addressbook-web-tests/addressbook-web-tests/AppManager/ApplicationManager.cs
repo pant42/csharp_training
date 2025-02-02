@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 
@@ -10,9 +11,9 @@ namespace WebAddressbookTests
 {
     public class ApplicationManager
     {
-        protected IWebDriver driver;
+        
         private StringBuilder verificationErrors;
-
+        private ChromeDriver driver;
         protected string baseURL;
         private bool acceptNextAlert = true;
 
@@ -25,14 +26,19 @@ namespace WebAddressbookTests
         {
             driver = new ChromeDriver();
             baseURL = "http://localhost/addressbook/";
-            verificationErrors = new StringBuilder();
+            loginHelper = new LoginHelper(this);
+            navigator = new NavigationHelper(this, baseURL);
+            groupHelper = new GroupHelper(this);
+            contactHelper = new ContactHelper(this);
+            
 
-            loginHelper = new LoginHelper(driver);
-            navigator = new NavigationHelper(driver, baseURL);
-            groupHelper = new GroupHelper(driver);
-            contactHelper = new ContactHelper(driver);
-
-
+        }
+        public IWebDriver Driver 
+        {
+            get 
+            { 
+                return driver; 
+            }
         }
 
         public LoginHelper Auth
@@ -65,5 +71,17 @@ namespace WebAddressbookTests
             }
         }
 
+        public void Stop()
+        {
+            try
+            {
+                driver.Quit();
+            }
+            catch (Exception)
+            {
+                // Ignore errors if unable to close the browser
+            }
+
+        }
     }
 }
