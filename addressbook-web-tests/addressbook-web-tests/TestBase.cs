@@ -9,17 +9,13 @@ namespace WebAddressbookTests
 {
     public class TestBase
     {
-
         protected IWebDriver driver;
         private StringBuilder verificationErrors;
-        
+
         protected string baseURL;
         private bool acceptNextAlert = true;
 
-        protected LoginHelper loginHelper;
-        protected NavigationHelper navigator;
-        protected GroupHelper groupHelper;
-        protected ContactHelper contactHelper;
+        protected ApplicationManager app; 
 
         [SetUp]
         public void SetupTest()
@@ -27,11 +23,8 @@ namespace WebAddressbookTests
             driver = new ChromeDriver();
             baseURL = "http://localhost/addressbook/";
             verificationErrors = new StringBuilder();
+            app = new ApplicationManager(); 
 
-            loginHelper = new LoginHelper(driver); 
-            navigator = new NavigationHelper(driver, baseURL);
-            groupHelper = new GroupHelper(driver);
-            contactHelper = new ContactHelper(driver);
         }
         [TearDown]
         public void TeardownTest()

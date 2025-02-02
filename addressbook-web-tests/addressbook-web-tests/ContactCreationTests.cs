@@ -12,16 +12,16 @@ namespace WebAddressbookTests
         [Test]
         public void ContactCreationTest()
         {
-            navigator.GoToHomePage();
-            loginHelper.Login(new AccountData("admin", "secret"));
-            contactHelper.InitNewContactCreation();
+            app.Navigator.GoToHomePage();
+            app.Auth.Login(new AccountData("admin", "secret"));
+            app.Contacts.InitNewContactCreation();
 
             ContactData contact = new ContactData("asd", "qwe");
 
-            contactHelper.FillContactForm(contact);
-            contactHelper.SubmitContactCreation();
-            navigator.ReturnToContactsPage();
-            loginHelper.Logout();
+            app.Contacts.FillContactForm(contact);
+            app.Contacts.SubmitContactCreation();
+            app.Navigator.ReturnToContactsPage();
+            app.Auth.Logout();
         }
     }
 }

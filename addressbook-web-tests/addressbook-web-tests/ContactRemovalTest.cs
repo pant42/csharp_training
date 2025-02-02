@@ -11,13 +11,13 @@ namespace WebAddressbookTests
         [Test]
         public void TheContactRemovalTest()
         {
-            navigator.GoToHomePage();
-            loginHelper.Login(new AccountData("admin", "secret"));
-            navigator.GoToContactPage();
-            contactHelper.SelectContactByIndex("1");
-            contactHelper.RemoveContact();
-            navigator.ReturnToContactsPage();
-            loginHelper.Logout();
+            app.Navigator.GoToHomePage();
+            app.Auth.Login(new AccountData("admin", "secret"));
+            app.Navigator.GoToContactPage();
+            app.Contacts.SelectContactByIndex("1");
+            app.Contacts.RemoveContact();
+            app.Navigator.ReturnToContactsPage();
+            app.Auth.Logout();
         }
     }
 }

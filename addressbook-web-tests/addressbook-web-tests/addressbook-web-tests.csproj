@@ -90,6 +90,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AccountData.cs" />
+    <Compile Include="ApplicationManager.cs" />
     <Compile Include="ContactData.cs" />
     <Compile Include="ContactHelper.cs" />
     <Compile Include="ContactRemovalTest.cs" />
