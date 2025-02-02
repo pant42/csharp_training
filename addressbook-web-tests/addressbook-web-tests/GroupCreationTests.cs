@@ -13,19 +13,19 @@ namespace WebAddressbookTests
         [Test]
         public void GroupCreationTest() 
         {
-            GoToHomePage();
-            Login(new AccountData("admin", "secret"));
-            GoToGroupPage();
-            InitNewGroupCreation();
+            navigator.GoToHomePage();
+            loginHelper.Login(new AccountData("admin", "secret"));
+            navigator.GoToGroupPage();
+            groupHelper.InitNewGroupCreation();
 
             GroupData group = new GroupData("aaa");
             group.Header = "ddd";
             group.Footer = "fff";
 
-            FillGroupForm(group);
-            SubmitGroupCreation();
-            ReturnToGroupsPage();
-            Logout();
+            groupHelper.FillGroupForm(group);
+            groupHelper.SubmitGroupCreation();
+            navigator.ReturnToGroupsPage();
+            loginHelper.Logout();
         }
     }
 }
