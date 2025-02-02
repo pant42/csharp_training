@@ -10,14 +10,8 @@ namespace WebAddressbookTests
         
         [Test]
         public void TheContactRemovalTest()
-        {
-            app.Navigator.GoToContactPage();
-
-            app.Contacts
-                .SelectContactByIndex("1")
-                .RemoveContact();
-
-            app.Navigator.ReturnToContactsPage();
+        {           
+            app.Contacts.DeleteContact();
             app.Auth.Logout();
         }
     }

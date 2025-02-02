@@ -11,16 +11,19 @@ namespace WebAddressbookTests
 
         [Test]
         public void ContactCreationTest()
-        {
-            app.Contacts.InitNewContactCreation();
-
+        {         
             ContactData contact = new ContactData("asd", "qwe");
 
-            app.Contacts
-                .FillContactForm(contact)
-                .SubmitContactCreation();
+            app.Contacts.Create(contact);
+            app.Auth.Logout();
+        }
 
-            app.Navigator.ReturnToContactsPage();
+        [Test]
+        public void EmptyContactCreationTest()
+        {
+            ContactData contact = new ContactData("", "");
+
+            app.Contacts.Create(contact);
             app.Auth.Logout();
         }
     }

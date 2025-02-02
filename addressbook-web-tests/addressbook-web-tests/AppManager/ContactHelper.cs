@@ -1,4 +1,5 @@
 ﻿
+using System;
 using OpenQA.Selenium;
 
 namespace WebAddressbookTests
@@ -8,6 +9,16 @@ namespace WebAddressbookTests
 
         public ContactHelper(ApplicationManager manager) : base(manager)
         {
+        }
+        public ContactHelper Create(ContactData contact)
+        {
+            manager.Navigator.GoToContactsPage();
+            InitNewContactCreation();
+            FillContactForm(contact);
+            SubmitContactCreation();
+            ReturnToContactsPage();
+
+            return this;
         }
         public ContactHelper InitNewContactCreation()
         {
@@ -40,6 +51,18 @@ namespace WebAddressbookTests
         {
             driver.FindElement(By.XPath("//input[@value='Delete']")).Click();
             return this;
+        }
+        public void ReturnToContactsPage()
+        {
+            driver.FindElement(By.LinkText("home")).Click();
+        }
+
+        public void DeleteContact()
+        {
+            manager.Navigator.GoToContactsPage();
+            SelectContactByIndex("1");
+            RemoveContact();
+            ReturnToContactsPage();
         }
     }
 }
