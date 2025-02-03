@@ -57,10 +57,10 @@ namespace WebAddressbookTests
             driver.FindElement(By.LinkText("home")).Click();
         }
 
-        public void DeleteContact()
+        public void DeleteContact(string p)
         {
             manager.Navigator.GoToContactsPage();
-            SelectContactByIndex("1");
+            SelectContactByIndex(p);
             RemoveContact();
             ReturnToContactsPage();
         }

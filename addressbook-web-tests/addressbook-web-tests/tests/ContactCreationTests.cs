@@ -15,7 +15,6 @@ namespace WebAddressbookTests
             ContactData contact = new ContactData("asd", "qwe");
 
             app.Contacts.Create(contact);
-            app.Auth.Logout();
         }
 
         [Test]
@@ -24,7 +23,6 @@ namespace WebAddressbookTests
             ContactData contact = new ContactData("", "");
 
             app.Contacts.Create(contact);
-            app.Auth.Logout();
         }
     }
 }
