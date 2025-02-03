@@ -57,12 +57,43 @@ namespace WebAddressbookTests
             driver.FindElement(By.LinkText("home")).Click();
         }
 
-        public void DeleteContact(string p)
+        public ContactHelper DeleteContact(string p)
         {
             manager.Navigator.GoToContactsPage();
             SelectContactByIndex(p);
             RemoveContact();
             ReturnToContactsPage();
+            return this;
+        }
+
+        public ContactHelper Modify(string p, ContactData newData)
+        {
+            manager.Navigator.GoToContactsPage();
+            SelectContactByIndex(p);
+            InitContactModification();
+            FillContactForm(newData);
+            SubmitContactModification();
+            ReturnToContactsPage();
+
+            return this;
+        }
+
+        public ContactHelper SubmitContactModification()
+        {
+            driver.FindElement(By.Name("update")).Click();
+            return this;
+        }
+
+        public ContactHelper InitContactModification()
+        {            
+            driver.FindElement(By.XPath("//img[@alt='Edit']")).Click();
+            return this;
+        }
+
+        public ContactHelper ModifyContact()
+        {
+            driver.FindElement(By.Name("update")).Click();
+            return this;
         }
     }
 }
