@@ -1,9 +1,4 @@
-﻿using System;
-using System.Text;
-using NUnit.Framework;
-using OpenQA.Selenium;
-using OpenQA.Selenium.Chrome;
-
+﻿using NUnit.Framework;
 
 namespace WebAddressbookTests
 {
@@ -14,16 +9,8 @@ namespace WebAddressbookTests
         [SetUp]
         public void SetupTest()
         {
-            app = new ApplicationManager();
-            app.Navigator.GoToHomePage();
-            app.Auth.Login(new AccountData("admin", "secret"));
+            app = ApplicationManager.GetInstance();
         }
-        [TearDown]
-        public void TeardownTest()
-        {
-            app.Auth.Logout();
-            app.Stop();
-            
-        }
+        
     }
 }
