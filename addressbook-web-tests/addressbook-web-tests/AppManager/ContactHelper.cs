@@ -42,9 +42,9 @@ namespace WebAddressbookTests
             return this;
         }
 
-        public ContactHelper SelectContactByIndex(string contactId)
+        public ContactHelper SelectContact()
         {
-            driver.FindElement(By.Id(contactId)).Click();
+            driver.FindElement(By.Name("selected[]")).Click();
             return this;
         }
         public ContactHelper RemoveContact()
@@ -57,19 +57,18 @@ namespace WebAddressbookTests
             driver.FindElement(By.LinkText("home")).Click();
         }
 
-        public ContactHelper DeleteContact(string p)
+        public ContactHelper DeleteContact()
         {
             manager.Navigator.GoToContactsPage();
-            SelectContactByIndex(p);
+            SelectContact();
             RemoveContact();
             ReturnToContactsPage();
             return this;
         }
 
-        public ContactHelper Modify(string p, ContactData newData)
+        public ContactHelper Modify(ContactData newData)
         {
             manager.Navigator.GoToContactsPage();
-            SelectContactByIndex(p);
             InitContactModification();
             FillContactForm(newData);
             SubmitContactModification();
