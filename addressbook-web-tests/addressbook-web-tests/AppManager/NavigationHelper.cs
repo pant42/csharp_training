@@ -22,7 +22,7 @@ namespace WebAddressbookTests
         }
         public void GoToGroupsPage()
         {
-            if (driver.Url == baseURL + "/group.php"
+            if (driver.Url == baseURL
                 && IsElementPresent(By.Name("new"))) 
             {
                 return;

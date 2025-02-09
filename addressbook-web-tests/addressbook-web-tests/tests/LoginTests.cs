@@ -14,7 +14,7 @@ namespace WebAddressbookTests
 
         public void LoginWithValidCredentials()
         {
-            app.Auth.Logout();
+            
 
             AccountData account = new AccountData("admin", "secret");
             app.Auth.Login(account);
@@ -25,7 +25,7 @@ namespace WebAddressbookTests
         }
         [Test]
         public void LoginWithInValidCredentials()
-        {
+        {            
             app.Auth.Logout();
 
             AccountData account = new AccountData("admin", "123");
