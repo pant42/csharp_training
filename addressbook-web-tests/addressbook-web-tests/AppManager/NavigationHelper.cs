@@ -33,6 +33,10 @@ namespace WebAddressbookTests
 
         public void GoToContactsPage()
         {
+            if (driver.Url == baseURL)
+            {
+                return;
+            }
             driver.FindElement(By.LinkText("home")).Click();
         }
     }
