@@ -20,6 +20,8 @@ namespace WebAddressbookTests
             app.Auth.Login(account);
 
             Assert.IsTrue(app.Auth.IsLoggedIn(account));
+
+
         }
         [Test]
         public void LoginWithInValidCredentials()
