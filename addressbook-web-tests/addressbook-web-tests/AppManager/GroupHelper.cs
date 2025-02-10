@@ -1,5 +1,6 @@
 ﻿
 using System;
+using System.Text.RegularExpressions;
 using OpenQA.Selenium;
 
 namespace WebAddressbookTests
@@ -63,11 +64,31 @@ namespace WebAddressbookTests
 
         public GroupHelper SelectGroupByIndex(int index)
         {
-            driver.FindElement(By.XPath("(//input[@name= 'selected[]'])[" + index + "]")).Click();
+            if (IsElementPresent(By.Name("selected[]")))
+            {
+                driver.FindElement(By.XPath("(//input[@name= 'selected[]'])[" + index + "]")).Click();
+                return this;
+            }
+            else
+            {
+                GroupData GroupToDelete = new GroupData("НебылоНоСоздал");
+                Create(GroupToDelete);
+                driver.FindElement(By.XPath("(//input[@name= 'selected[]'])")).Click();
+
+            }
+
             return this;
         }
         public GroupHelper RemoveGroup()
         {
+            if (IsElementPresent(By.Name("selected[]")))
+            {
+                driver.FindElement(By.Name("delete")).Click();
+                return this;
+            }
+
+
+
             driver.FindElement(By.Name("delete")).Click();
             return this;
         }
