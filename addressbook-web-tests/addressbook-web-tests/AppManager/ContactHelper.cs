@@ -44,7 +44,7 @@ namespace WebAddressbookTests
         }
         public ContactHelper RemoveContact()
         {
-            driver.FindElement(By.XPath("//input[@value='Delete']")).Click();
+            driver.FindElement(By.XPath("//form[2]/input[2]")).Click();
             return this;
         }
         public void ReturnToContactsPage()
@@ -55,7 +55,7 @@ namespace WebAddressbookTests
         public ContactHelper DeleteContact()
         {
             manager.Navigator.GoToContactsPage();
-            SelectContact();
+            InitContactModification();
             RemoveContact();
             ReturnToContactsPage();
             return this;
@@ -79,7 +79,16 @@ namespace WebAddressbookTests
         }
 
         public ContactHelper InitContactModification()
-        {            
+        {
+            if (IsElementPresent(By.Name("selected[]")))
+            {
+                
+            }
+            else 
+            {
+                ContactData CreatedContact = new ContactData("НеБылоКонтактаФамилия", "НеБылоКонтактаИмя");
+                Create(CreatedContact);                
+            }
             driver.FindElement(By.XPath("//img[@alt='Edit']")).Click();
             return this;
         }
