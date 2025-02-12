@@ -1,5 +1,6 @@
 ﻿
 using System;
+using System.Reflection;
 using System.Text.RegularExpressions;
 using OpenQA.Selenium;
 
@@ -9,10 +10,10 @@ namespace WebAddressbookTests
 
     {
         public GroupHelper(ApplicationManager manager) : base(manager)
-        {           
+        {
         }
 
-        public GroupHelper Create(GroupData group) 
+        public GroupHelper Create(GroupData group)
         {
             manager.Navigator.GoToGroupsPage();
             InitNewGroupCreation();
@@ -63,32 +64,12 @@ namespace WebAddressbookTests
         }
 
         public GroupHelper SelectGroupByIndex(int index)
-        {
-            if (IsElementPresent(By.Name("selected[]")))
-            {
-                driver.FindElement(By.XPath("(//input[@name= 'selected[]'])[" + index + "]")).Click();
-                return this;
-            }
-            else
-            {
-                GroupData GroupToDelete = new GroupData("НебылоНоСоздал");
-                Create(GroupToDelete);
-                driver.FindElement(By.XPath("(//input[@name= 'selected[]'])")).Click();
-
-            }
-
-            return this;
-        }
+        {            
+             driver.FindElement(By.XPath("(//input[@name= 'selected[]'])[" + index + "]")).Click();
+             return this;            
+        }                  
         public GroupHelper RemoveGroup()
         {
-            if (IsElementPresent(By.Name("selected[]")))
-            {
-                driver.FindElement(By.Name("delete")).Click();
-                return this;
-            }
-
-
-
             driver.FindElement(By.Name("delete")).Click();
             return this;
         }
@@ -107,6 +88,23 @@ namespace WebAddressbookTests
         {
             driver.FindElement(By.Name("update")).Click();
             return this;
+        }
+        public GroupHelper IsAnyGroup()
+        {
+            manager.Navigator.GoToGroupsPage();
+            if (IsElementPresent(By.Name("selected[]")))
+            {
+                             
+            }
+            else
+            {
+                GroupData GroupToDelete = new GroupData("НебылоНоСоздал");
+                Create(GroupToDelete);
+                driver.FindElement(By.XPath("(//input[@name= 'selected[]'])")).Click();
+
+            }
+            return this;
+
         }
     }
 }

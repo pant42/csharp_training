@@ -80,15 +80,6 @@ namespace WebAddressbookTests
 
         public ContactHelper InitContactModification()
         {
-            if (IsElementPresent(By.Name("selected[]")))
-            {
-                
-            }
-            else 
-            {
-                ContactData CreatedContact = new ContactData("НеБылоКонтактаФамилия", "НеБылоКонтактаИмя");
-                Create(CreatedContact);                
-            }
             driver.FindElement(By.XPath("//img[@alt='Edit']")).Click();
             return this;
         }
@@ -96,6 +87,21 @@ namespace WebAddressbookTests
         public ContactHelper ModifyContact()
         {
             driver.FindElement(By.Name("update")).Click();
+            return this;
+        }
+
+        public ContactHelper IsAnyContact()
+        {
+            manager.Navigator.GoToContactsPage();
+            if (IsElementPresent(By.Name("selected[]")))
+            {
+
+            }
+            else
+            {
+                ContactData CreatedContact = new ContactData("НеБылоКонтактаФамилия", "НеБылоКонтактаИмя");
+                Create(CreatedContact);
+            }              
             return this;
         }
     }

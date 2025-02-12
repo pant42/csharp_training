@@ -10,22 +10,10 @@ namespace WebAddressbookTests
         
         [Test]
         public void TheContactRemovalTest()
-        {           
+        {
+            app.Contacts.IsAnyContact();
             app.Contacts.DeleteContact();
-            app.Contacts.DeleteContact();
-            app.Contacts.DeleteContact();
-            app.Contacts.DeleteContact();
-            app.Contacts.DeleteContact();
-            app.Contacts.DeleteContact();
-            app.Contacts.DeleteContact();
-            app.Contacts.DeleteContact();
-            app.Contacts.DeleteContact();
-            app.Contacts.DeleteContact();
-            app.Contacts.DeleteContact();
-            app.Contacts.DeleteContact();
-            app.Contacts.DeleteContact();
-            app.Contacts.DeleteContact();
-            app.Contacts.DeleteContact();
+
         }
     }
 }
