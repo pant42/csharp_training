@@ -15,10 +15,12 @@ namespace WebAddressbookTests
             app.Groups.IsAnyGroup();
             List<GroupData> oldGroups = app.Groups.GetGroupList();
 
-            app.Groups.RemoveGroup(1);
+            app.Groups.RemoveGroup(0);
 
             List<GroupData> newGroups = app.Groups.GetGroupList();
-            Assert.AreEqual(oldGroups.Count-1, newGroups.Count);
+            
+            oldGroups.RemoveAt(0);
+            Assert.AreEqual(newGroups.Count, oldGroups.Count);
         }
     }
 }
