@@ -1,5 +1,6 @@
 ﻿
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using NUnit.Framework;
 
 
@@ -18,7 +19,8 @@ namespace WebAddressbookTests
             app.Contacts.DeleteContact();
 
             List<ContactData> newContacts = app.Contacts.GetContactList();
-            Assert.AreEqual(oldContacts.Count - 1, newContacts.Count);
+            oldContacts.RemoveAt(0);
+            Assert.AreEqual(newContacts.Count, oldContacts.Count);
         }
     }
 }
