@@ -66,7 +66,7 @@ namespace WebAddressbookTests
 
         public GroupHelper SelectGroupByIndex(int index)
         {            
-             driver.FindElement(By.XPath("(//input[@name= 'selected[]'])[" + (index+1) + "]")).Click();
+             driver.FindElement(By.XPath("(//input[@name= 'selected[]'])[" + (index + 1) + "]")).Click();
              return this;            
         }                  
         public GroupHelper RemoveGroup()
