@@ -66,7 +66,7 @@ namespace WebAddressbookTests
 
         public int CompareTo(GroupData other) 
         {
-            if (!Object.ReferenceEquals(other, null))
+            if (Object.ReferenceEquals(other, null))
             {
                 return 1;
             }
