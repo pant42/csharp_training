@@ -15,10 +15,12 @@ namespace WebAddressbookTests
         [Test]
         public void ContactModificationTest()
         {
-            app.Contacts.IsAnyContact();            
-            List<ContactData> oldContacts = app.Contacts.GetContactList();
+            app.Contacts.IsAnyContact();
 
-            ContactData newData = new ContactData("zzz","xxx");
+            ContactData newData = new ContactData("zzz", "xxx");
+
+            List<ContactData> oldContacts = app.Contacts.GetContactList();
+            ContactData oldData = oldContacts[0];
 
             app.Contacts.Modify(newData);
 
@@ -31,6 +33,16 @@ namespace WebAddressbookTests
             oldContacts.Sort();
             newContacts.Sort();
             Assert.AreEqual(oldContacts, newContacts);
+
+            Assert.AreEqual(oldContacts, newContacts);
+
+            foreach (ContactData contact in newContacts)
+            {
+                if (contact.Id == oldData.Id)
+                {
+                    Assert.AreEqual(newData.Lastname, contact.Lastname, newData.Firstname, contact.Firstname);
+                }
+            }
         }
     }
 }

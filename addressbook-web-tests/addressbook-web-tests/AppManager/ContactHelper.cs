@@ -119,10 +119,14 @@ namespace WebAddressbookTests
             ICollection<IWebElement> elements = driver.FindElements(By.XPath("//*[@id=\"maintable\"]/tbody/tr[@name=\"entry\"]"));
                 foreach (IWebElement element in elements)
                 {
-                    String Lastname = element.FindElement(By.XPath("td[2]")).Text;
-                    String Firstname = element.FindElement(By.XPath("td[3]")).Text;
+                        String Lastname = element.FindElement(By.XPath("td[2]")).Text;
+                        String Firstname = element.FindElement(By.XPath("td[3]")).Text;
+                    ContactData contact = new ContactData(Lastname, Firstname) 
+                    {
+                        Id = element.FindElement(By.TagName("input")).GetAttribute("value")
+                    };
 
-                        contactCache.Add(new ContactData(Lastname, Firstname));
+                    contactCache.Add(contact);
                 }
             }
             List<ContactData> contacts = new List<ContactData>();
