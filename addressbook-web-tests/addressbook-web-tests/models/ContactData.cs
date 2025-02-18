@@ -25,7 +25,7 @@ namespace WebAddressbookTests
             {
                 return true;
             }
-            return Lastname == other.Lastname;
+            return Lastname == other.Lastname && Firstname == other.Firstname;
             return Firstname == other.Firstname;
             
         }
@@ -36,23 +36,22 @@ namespace WebAddressbookTests
             {
                 return 1;
             }
-            return Lastname.CompareTo(other.Lastname);
-            return Firstname.CompareTo(other.Firstname);
-            
+            int result = Lastname.CompareTo(other.Lastname);
+            if (result == 0)
+            {
+                result = Firstname.CompareTo(other.Firstname);
+            }
+            return result;
         }
+
 
         public override int GetHashCode()
         {
-            return Lastname.GetHashCode();
-            return Firstname.GetHashCode();
-            
+            return Lastname.GetHashCode() ^ Firstname.GetHashCode();
         }
         public override string ToString()
         {
-            return "Lastname = " + Lastname;
-            return "Firstname = " + Firstname;
-            
-
+            return $"Lastname = {Lastname}, Firstname = {Firstname}";
         }
     }
 }
