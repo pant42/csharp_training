@@ -25,8 +25,7 @@ namespace WebAddressbookTests
             {
                 return true;
             }
-            return Lastname == other.Lastname && Firstname == other.Firstname;
-            return Firstname == other.Firstname;
+            return Lastname == other.Lastname && Firstname == other.Firstname;            
             
         }
 

@@ -34,13 +34,12 @@ namespace WebAddressbookTests
             newContacts.Sort();
             Assert.AreEqual(oldContacts, newContacts);
 
-            Assert.AreEqual(oldContacts, newContacts);
-
             foreach (ContactData contact in newContacts)
             {
                 if (contact.Id == oldData.Id)
                 {
-                    Assert.AreEqual(newData.Lastname, contact.Lastname, newData.Firstname, contact.Firstname);
+                    Assert.AreEqual(newData.Lastname, contact.Lastname);
+                    Assert.AreEqual(newData.Firstname, contact.Firstname);
                 }
             }
         }
