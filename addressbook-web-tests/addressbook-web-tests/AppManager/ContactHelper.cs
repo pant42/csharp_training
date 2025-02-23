@@ -1,6 +1,7 @@
 ﻿
 using System;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Text.RegularExpressions;
 using OpenQA.Selenium;
 
@@ -92,6 +93,13 @@ namespace WebAddressbookTests
             
         }
 
+        public void InitContactDetailsPage(int index)
+        {
+            driver.FindElements(By.Name("entry"))[index]
+    .FindElements(By.TagName("td"))[6]
+    .FindElement(By.TagName("a")).Click();
+        }
+
         public ContactHelper ModifyContact()
         {
             driver.FindElement(By.Name("update")).Click();
@@ -122,6 +130,8 @@ namespace WebAddressbookTests
 
 //Методы для Сравнений списков извлеченных контактов
         private List<ContactData> contactCache = null;
+        
+
         public List<ContactData> GetContactList()
         {
             if (contactCache == null)
@@ -146,13 +156,13 @@ namespace WebAddressbookTests
             return new List<ContactData>(contactCache);
         }
 
-        internal int GetContactCount()
+        public int GetContactCount()
         {
             return driver.FindElements(By.Name("selected[]")).Count;
         }
 
 //Методы для извлечения информации из форм контактов
-        internal ContactData GetContactInformationFromTable(int index)
+        public ContactData GetContactInformationFromTable(int index)
         {
             manager.Navigator.GoToContactsPage();
             IList<IWebElement> cells = driver.FindElements(By.Name("entry"))[index].FindElements(By.TagName("td"));
@@ -170,7 +180,7 @@ namespace WebAddressbookTests
             };
         }
 
-        internal ContactData GetContactInformationFromEditForm(int index)
+        public ContactData GetContactInformationFromEditForm(int index)
         {
             manager.Navigator.GoToContactsPage();
             InitContactModification(index);
@@ -199,5 +209,45 @@ namespace WebAddressbookTests
             Match m = new Regex(@"\d+").Match(text);
             return Int32.Parse(m.Value);
         }
+        
+        public string GetDetailInfoContact(int index)
+        {
+            manager.Navigator.GoToContactsPage();
+            InitContactDetailsPage(index);
+
+            string allContactInfo = driver.FindElement(By.CssSelector("div#content")).Text;
+            if (allContactInfo == null || allContactInfo == "")
+            {
+                return "";
+            }
+            else
+            {
+                return allContactInfo.
+                    
+                    Replace("H: ", "").
+                    Replace("M: ", "").
+                    Replace("W: ", "")
+                    ;
+            }
+
+        }
+        public string GetTableInformationContacttoString(int index)
+        {
+            String lastName = GetContactInformationFromTable(index).Lastname;
+            String firstName = GetContactInformationFromTable(index).Firstname;
+            String address = GetContactInformationFromTable(index).Address;
+
+            String phones = GetContactInformationFromTable(index).AllPhones;
+
+            string allContactInfotable = (
+                lastName + " " + firstName + "\r\n"
+                 + address + "\r\n"
+                 + "\r\n"
+                + phones
+                );
+
+            return allContactInfotable;
+        }
+
     }
 }
