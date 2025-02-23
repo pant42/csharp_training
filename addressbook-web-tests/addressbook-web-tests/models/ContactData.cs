@@ -25,7 +25,7 @@ namespace WebAddressbookTests
             {
                 if (allPhones != null )
                 {
-                    return allPhones.Trim();
+                    return allPhones;
                 }
                 else
                 {
@@ -40,7 +40,7 @@ namespace WebAddressbookTests
 
         private string CleanUp(string phone)
         {
-            if (phone == null || phone == "null")
+            if (phone == null || phone == "")
             {
                 return "";
             }
