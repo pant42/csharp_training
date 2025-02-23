@@ -1,6 +1,7 @@
 ﻿
 
 using System;
+using System.Text.RegularExpressions;
 
 namespace WebAddressbookTests
 {
@@ -46,7 +47,7 @@ namespace WebAddressbookTests
             }
             else 
             {
-                return phone
+                return Regex.Replace(phone,"[ -()]","") 
                     .Replace(" ", "")
                     .Replace("-", "")
                     .Replace("(", "")
