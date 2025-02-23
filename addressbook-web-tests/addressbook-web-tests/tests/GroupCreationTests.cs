@@ -1,4 +1,5 @@
 ﻿
+using System;
 using System.Collections.Generic;
 using System.Security.Cryptography;
 using NUnit.Framework;
@@ -15,9 +16,10 @@ namespace WebAddressbookTests
         [Test]
         public void GroupCreationTest()
         {
-            GroupData group = new GroupData("aaa");
-            group.Header = "ddd";
-            group.Footer = "fff";
+            GroupData group = new GroupData(app.Groups.RandGName(3) + "Na");
+            group.Header = app.Groups.RandGName(4) + "Hd";
+            group.Footer = app.Groups.RandGName(4) + "Ftr";
+
             List<GroupData> oldGroups = app.Groups.GetGroupList();
 
             app.Groups.Create(group);
@@ -31,6 +33,7 @@ namespace WebAddressbookTests
             newGroups.Sort();
             Assert.AreEqual(oldGroups, newGroups);
         }
+
 
         [Test]
         public void EmptyGroupCreationTest()

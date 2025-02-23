@@ -1,4 +1,5 @@
-﻿using OpenQA.Selenium;
+﻿using System;
+using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 
 namespace WebAddressbookTests
@@ -35,6 +36,27 @@ namespace WebAddressbookTests
             {
                 return false;
             }
+        }
+        public string GeneratedRandAzNub(int length)
+        {
+            const string letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+            const string numbers = "0123456789";
+            var random = new Random();
+            var result = new char[length];
+
+            for (int i = 0; i < length; i++)
+            {
+                if (i % 2 == 0)
+                {
+                    result[i] = letters[random.Next(letters.Length)]; // Четные позиции — буквы
+                }
+                else
+                {
+                    result[i] = numbers[random.Next(numbers.Length)]; // Нечетные позиции — цифры
+                }
+            }
+
+            return new string(result);
         }
     }
 }

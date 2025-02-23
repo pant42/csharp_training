@@ -12,9 +12,9 @@ namespace WebAddressbookTests
         {
             app.Groups.IsAnyGroup();
 
-            GroupData newData = new GroupData("modifiedHeader");
-            newData.Header = "ttt";
-            newData.Footer = "qqq";
+            GroupData newData = new GroupData(app.Groups.RandGName(5)+ "MdN");
+            newData.Header = app.Groups.RandGName(6) + "MdH";
+            newData.Footer = app.Groups.RandGName(7) + "MdF";
 
             List<GroupData> oldGroups = app.Groups.GetGroupList();
             GroupData oldData = oldGroups[0];

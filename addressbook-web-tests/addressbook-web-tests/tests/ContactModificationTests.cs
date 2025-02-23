@@ -17,7 +17,7 @@ namespace WebAddressbookTests
         {
             app.Contacts.IsAnyContact();
 
-            ContactData newData = new ContactData("zzz", "xxx");
+            ContactData newData = new ContactData(app.Contacts.RandCName(5) + "LnMdc", app.Contacts.RandCName(5) + "FnMdc");
 
             List<ContactData> oldContacts = app.Contacts.GetContactList();
             ContactData oldData = oldContacts[0];

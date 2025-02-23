@@ -110,7 +110,15 @@ namespace WebAddressbookTests
             return this;
 
         }
+        private string randomGroupName;
+        public string RandGName(int length)
+        {
+            return randomGroupName = GeneratedRandAzNub(length);
+        }
+
         private List<GroupData> groupCache = null;
+        
+
         public List<GroupData> GetGroupList()
         {
             if (groupCache == null) 

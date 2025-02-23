@@ -108,6 +108,11 @@ namespace WebAddressbookTests
             }              
             return this;
         }
+        private string randomContactName;
+        public string RandCName(int length)
+        {
+            return randomContactName = GeneratedRandAzNub(length);
+        }
 
         private List<ContactData> contactCache = null;
         public List<ContactData> GetContactList()
