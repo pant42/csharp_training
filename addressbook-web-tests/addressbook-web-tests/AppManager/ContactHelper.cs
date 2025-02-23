@@ -29,7 +29,7 @@ namespace WebAddressbookTests
         public ContactHelper FillContactForm(ContactData contact)
         {
             Type(By.Name("firstname"), contact.Firstname);
-            Type(By.Name("lastname"), contact.Lastname);        
+            Type(By.Name("lastname"), contact.Lastname);
             return this;
         }
         public ContactHelper SubmitContactCreation()
@@ -58,7 +58,7 @@ namespace WebAddressbookTests
         public ContactHelper DeleteContact()
         {
             manager.Navigator.GoToContactsPage();
-            InitContactModification();
+            InitContactModification(0);
             RemoveContact();
             ReturnToContactsPage();
             return this;
@@ -67,7 +67,7 @@ namespace WebAddressbookTests
         public ContactHelper Modify(ContactData newData)
         {
             manager.Navigator.GoToContactsPage();
-            InitContactModification();
+            InitContactModification(0);
             FillContactForm(newData);
             SubmitContactModification();
             ReturnToContactsPage();
@@ -82,10 +82,13 @@ namespace WebAddressbookTests
             return this;
         }
 
-        public ContactHelper InitContactModification()
+        public void InitContactModification(int index)
         {
-            driver.FindElement(By.XPath("//img[@alt='Edit']")).Click();
-            return this;
+            
+            driver.FindElements(By.Name("entry"))[index]
+                .FindElements(By.TagName("td"))[7]
+                .FindElement(By.TagName("a")).Click();
+            
         }
 
         public ContactHelper ModifyContact()
@@ -105,28 +108,31 @@ namespace WebAddressbookTests
             {
                 ContactData CreatedContact = new ContactData("НеБылоКонтактаФамилия", "НеБылоКонтактаИмя");
                 Create(CreatedContact);
-            }              
+            }
             return this;
         }
+
+//Методы для генерации новых имен контактов
         private string randomContactName;
         public string RandCName(int length)
         {
             return randomContactName = GeneratedRandAzNub(length);
         }
 
+//Методы для Сравнений списков извлеченных контактов
         private List<ContactData> contactCache = null;
         public List<ContactData> GetContactList()
         {
-            if (contactCache == null) 
+            if (contactCache == null)
             {
-            contactCache = new List<ContactData>(); 
-            manager.Navigator.GoToContactsPage();
-            ICollection<IWebElement> elements = driver.FindElements(By.XPath("//*[@id=\"maintable\"]/tbody/tr[@name=\"entry\"]"));
+                contactCache = new List<ContactData>();
+                manager.Navigator.GoToContactsPage();
+                ICollection<IWebElement> elements = driver.FindElements(By.XPath("//*[@id=\"maintable\"]/tbody/tr[@name=\"entry\"]"));
                 foreach (IWebElement element in elements)
                 {
-                        String Lastname = element.FindElement(By.XPath("td[2]")).Text;
-                        String Firstname = element.FindElement(By.XPath("td[3]")).Text;
-                    ContactData contact = new ContactData(Lastname, Firstname) 
+                    String Lastname = element.FindElement(By.XPath("td[2]")).Text;
+                    String Firstname = element.FindElement(By.XPath("td[3]")).Text;
+                    ContactData contact = new ContactData(Lastname, Firstname)
                     {
                         Id = element.FindElement(By.TagName("input")).GetAttribute("value")
                     };
@@ -135,13 +141,54 @@ namespace WebAddressbookTests
                 }
             }
             List<ContactData> contacts = new List<ContactData>();
-           
+
             return new List<ContactData>(contactCache);
         }
 
         internal int GetContactCount()
         {
             return driver.FindElements(By.Name("selected[]")).Count;
+        }
+
+//Методы для извлечения информации из форм контактов
+        internal ContactData GetContactInformationFromTable(int index)
+        {
+            manager.Navigator.GoToContactsPage();
+            IList<IWebElement> cells = driver.FindElements(By.Name("entry"))[index].FindElements(By.TagName("td"));
+
+            string lastName = cells[1].Text;
+            string firstName = cells[2].Text;
+            string address = cells[3].Text;
+            string allPhones = cells[5].Text;
+
+            return new ContactData(firstName, lastName)
+            {
+                Address = address,
+                AllPhones = allPhones
+
+            };
+        }
+
+        internal ContactData GetContactInformationFromEditForm(int index)
+        {
+            manager.Navigator.GoToContactsPage();
+            InitContactModification(index);
+
+            string firstName = driver.FindElement(By.Name("firstname")).GetAttribute("value");
+            string lastName = driver.FindElement(By.Name("lastname")).GetAttribute("value");
+
+            string address = driver.FindElement(By.Name("address")).GetAttribute("value");
+            string homePhone = driver.FindElement(By.Name("home")).GetAttribute("value");
+            string mobilePhone = driver.FindElement(By.Name("mobile")).GetAttribute("value");
+            string workPhone = driver.FindElement(By.Name("work")).GetAttribute("value");
+
+            return new ContactData(firstName, lastName)
+            {
+                Address = address,
+                HomePhone = homePhone,
+                MobilePhone = mobilePhone,
+                WorkPhone = workPhone
+            };
         }
     }
 }
