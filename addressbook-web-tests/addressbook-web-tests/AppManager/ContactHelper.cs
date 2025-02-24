@@ -252,9 +252,9 @@ namespace WebAddressbookTests
             String emails = GetContactInformationFromTable(index).AllEmails;
 
             string allContactInfotable = (
-                lastName + " " + firstName + " " + address + phones + emails);
+                lastName  + " " + firstName + " " + address + "  " + phones + "  " + emails);
 
-            return allContactInfotable;
+            return allContactInfotable.Replace("\r\n", " ");
         }
 
     }

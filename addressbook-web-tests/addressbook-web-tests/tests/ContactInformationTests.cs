@@ -11,7 +11,7 @@ namespace WebAddressbookTests
     public class ContactInformationTests : AuthTestBase
     {
         [Test]
-        public void TestContactInformation() 
+        public void ContactTableInfoAccert() 
         {
             ContactData fromTable = app.Contacts.GetContactInformationFromTable(0);
             ContactData fromForm = app.Contacts.GetContactInformationFromEditForm(0);
@@ -24,14 +24,16 @@ namespace WebAddressbookTests
         }
 
         [Test]
-        public void TestContactDetail()
-        {
-            string detailInfoContact = app.Contacts.GetDetailInfoContact(0);
+        public void ContactTableDetailAccert()
+        {            
             string tableInformationContact = app.Contacts.GetTableInformationContacttoString(0);
-            System.Console.Out.Write("На деталке видно: " + detailInfoContact);
-            System.Console.Out.Write("В таблице видно: " + tableInformationContact);
+            string detailInfoContact = app.Contacts.GetDetailInfoContact(0);
 
-            Assert.AreEqual(detailInfoContact, tableInformationContact);
+            System.Console.Out.Write("В таблице видно Expected: " + tableInformationContact); 
+            System.Console.Out.Write("На деталке видно But was: " + detailInfoContact);
+            
+
+            Assert.AreEqual(tableInformationContact, detailInfoContact);
 
         }
 

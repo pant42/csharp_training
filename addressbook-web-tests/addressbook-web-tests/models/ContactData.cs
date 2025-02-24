@@ -37,7 +37,7 @@ namespace WebAddressbookTests
                 }
                 else
                 {
-                    return CleanUp(Email) + CleanUp(Email2) + CleanUp(Email3).Trim();
+                    return (Email) + (Email2) + (Email3).Trim();
                 }
             }
             set
@@ -73,7 +73,8 @@ namespace WebAddressbookTests
             else 
             {
                 return Regex.Replace(phone,"[ -()]","") 
-                    .Replace(" ", "")
+                    
+                    .Replace(")", "")
                     .Replace("-", "")
                     .Replace("(", "")
                     .Replace(")", "")
