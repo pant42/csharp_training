@@ -120,10 +120,8 @@ namespace WebAddressbookTests
         {
             return
                 "lastName = " + Lastname +
-                "\nfirstName = " + Firstname +
-                "\naddress = " + Address +
-                "\nallEmails = " + AllEmails +
-                "\nAllPhones = " + AllPhones;
+                "\nfirstName = " + Firstname;
+
         }
     }
 }
