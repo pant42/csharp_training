@@ -251,7 +251,7 @@ namespace WebAddressbookTests
             String emails = GetContactInformationFromTable(index).AllEmails;
 
             string allContactInfotable = (
-                lastName  + " " + firstName + " " + address + "  " + phones + "  " + emails);
+                firstName + " " + lastName + " " + address + "  " + phones + "  " + emails);
 
             return allContactInfotable.Replace("\r\n", " ");
         }
