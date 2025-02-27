@@ -37,7 +37,7 @@ namespace WebAddressbookTests
                 }
                 else
                 {
-                    return (Email) + (Email2) + (Email3).Trim();
+                    return CleanUp(Email) + CleanUp(Email2) + CleanUp(Email3).Trim();
                 }
             }
             set
@@ -66,20 +66,13 @@ namespace WebAddressbookTests
 
         private string CleanUp(string phone)
         {
-            if (phone == null || phone == "")
+            if (phone == null || phone == "" )
             {
                 return "";
             }
             else 
             {
-                return Regex.Replace(phone,"[ -()]","") 
-                    
-                    .Replace(")", "")
-                    .Replace("-", "")
-                    .Replace("(", "")
-                    .Replace(")", "")
-                    + "\r\n"
-                    ;
+                return Regex.Replace(phone,"[ -()]","") + "\r\n";
             }
         }
 

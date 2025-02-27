@@ -206,8 +206,12 @@ namespace WebAddressbookTests
             return new ContactData(lastName, firstName)
             {
                 Address = address,
-                AllPhones = homePhone + "\r\n" + mobilePhone + "\r\n" + workPhone,
-                AllEmails = email + "\r\n" + email2 + "\r\n" + email3
+                HomePhone = homePhone,
+                MobilePhone = mobilePhone,
+                WorkPhone = workPhone,
+                Email = email,
+                Email2 = email2,
+                Email3 = email3
 
             };
         }
