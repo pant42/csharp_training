@@ -174,7 +174,7 @@ namespace WebAddressbookTests
             string allPhones = cells[5].Text;
             
 
-            return new ContactData(firstName, lastName)
+            return new ContactData(lastName, firstName)
             {
                 Address = address,
                 AllEmails = allEmails,
@@ -188,8 +188,9 @@ namespace WebAddressbookTests
             manager.Navigator.GoToContactsPage();
             InitContactModification(index);
 
-            string firstName = driver.FindElement(By.Name("firstname")).GetAttribute("value");
-            string lastName = driver.FindElement(By.Name("lastname")).GetAttribute("value");
+
+            string lastName = driver.FindElement(By.Name("lastname")).GetAttribute("value"); 
+            string firstName = driver.FindElement(By.Name("firstname")).GetAttribute("value");            
 
             string address = driver.FindElement(By.Name("address")).GetAttribute("value");
 
@@ -201,15 +202,13 @@ namespace WebAddressbookTests
             string email2 = driver.FindElement(By.Name("email2")).GetAttribute("value");
             string email3 = driver.FindElement(By.Name("email3")).GetAttribute("value");
 
-            return new ContactData(firstName, lastName)
+            
+            return new ContactData(lastName, firstName)
             {
                 Address = address,
-                HomePhone = homePhone,
-                MobilePhone = mobilePhone,
-                WorkPhone = workPhone,
-                Email = email,
-                Email2 = email2,
-                Email3 = email3
+                AllPhones = homePhone + "\r\n" + mobilePhone + "\r\n" + workPhone,
+                AllEmails = email + "\r\n" + email2 + "\r\n" + email3
+
             };
         }
 
