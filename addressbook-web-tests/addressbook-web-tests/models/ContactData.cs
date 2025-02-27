@@ -9,6 +9,7 @@ namespace WebAddressbookTests
     {
         private string allPhones;
         private string allEmails;
+        private string allDetailInfo;
         public ContactData (string lastname,string firstname)
         {
             Lastname = lastname;
@@ -64,6 +65,25 @@ namespace WebAddressbookTests
             }
         }
 
+        public string AllDetailInfo
+        {
+            get
+            {
+                if (allDetailInfo != null)
+                {
+                    return allDetailInfo;
+                }
+                else
+                {
+                    return CleanUp(AllPhones) + CleanUp(AllEmails).Trim();
+                }
+            }
+            set
+            {
+                allPhones = value;
+            }
+        }
+
         private string CleanUp(string phone)
         {
             if (phone == null || phone == "" )
@@ -104,16 +124,21 @@ namespace WebAddressbookTests
             return result;
         }
 
-
         public override int GetHashCode()
         {
             return Lastname.GetHashCode() ^ Firstname.GetHashCode();
         }
+
         public override string ToString()
         {
             return
-                "lastName = " + Lastname +
-                "\nfirstName = " + Firstname;
+            "lastName = " + Lastname +
+            "\nfirstName = " + Firstname +
+            "\naddress = " + Address +
+            "\nallPhones = " + AllPhones +
+            "\nallEmails = " + AllEmails
+            ;
+
 
         }
     }

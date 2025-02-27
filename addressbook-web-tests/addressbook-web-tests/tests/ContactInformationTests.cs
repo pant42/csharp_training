@@ -28,15 +28,17 @@ namespace WebAddressbookTests
 
         [Test]
         public void ContactTableDetailAccert()
-        {            
-            string tableInformationContact = app.Contacts.GetTableInformationContacttoString(0);
-            string detailInfoContact = app.Contacts.GetDetailInfoContact(0);
+        {
+            
+            String tableInfoContact = app.Contacts.ContactTableToDetail(0);
 
-            System.Console.Out.Write("В таблице видно Expected: " + tableInformationContact); 
+            String detailInfoContact = app.Contacts.GetDetailInfoContact(0);
+
+            System.Console.Out.Write("В таблице видно Expected: " + tableInfoContact); 
             System.Console.Out.Write("На деталке видно But was: " + detailInfoContact);
             
 
-            Assert.AreEqual(tableInformationContact, detailInfoContact);
+            Assert.AreEqual(tableInfoContact, detailInfoContact);
 
         }
 

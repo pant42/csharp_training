@@ -15,11 +15,13 @@ namespace WebAddressbookTests
 
         public void TestGetInformation()
         {
-            string detailInfoContact = app.Contacts.GetDetailInfoContact(0);
-            string tableInformationContact = app.Contacts.GetTableInformationContacttoString(0);
-
-            System.Console.Out.Write("На деталке видно: " + detailInfoContact); 
+            string tableInformationContact = app.Contacts.GetContactInformationFromTable(0).ToString();
             System.Console.Out.Write("В таблице видно: " + tableInformationContact);
+
+            string detailInfoContact = app.Contacts.GetDetailInfoContact(0);
+            System.Console.Out.Write("На деталке видно: " + detailInfoContact);
+
+            
         }
 
     } 

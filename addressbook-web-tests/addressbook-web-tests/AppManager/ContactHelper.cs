@@ -86,11 +86,11 @@ namespace WebAddressbookTests
 
         public void InitContactModification(int index)
         {
-            
+
             driver.FindElements(By.Name("entry"))[index]
                 .FindElements(By.TagName("td"))[7]
                 .FindElement(By.TagName("a")).Click();
-            
+
         }
 
         public void InitContactDetailsPage(int index)
@@ -121,16 +121,16 @@ namespace WebAddressbookTests
             return this;
         }
 
-//Методы для генерации новых имен контактов
+        //Методы для генерации новых имен контактов
         private string randomContactName;
         public string RandCName(int length)
         {
             return randomContactName = GeneratedRandAzNub(length);
         }
 
-//Методы для Сравнений списков извлеченных контактов
+        //Методы для Сравнений списков извлеченных контактов
         private List<ContactData> contactCache = null;
-        
+
 
         public List<ContactData> GetContactList()
         {
@@ -161,7 +161,7 @@ namespace WebAddressbookTests
             return driver.FindElements(By.Name("selected[]")).Count;
         }
 
-//Методы для извлечения информации из форм контактов
+        //Методы для извлечения информации из форм контактов
         public ContactData GetContactInformationFromTable(int index)
         {
             manager.Navigator.GoToContactsPage();
@@ -172,7 +172,7 @@ namespace WebAddressbookTests
             string address = cells[3].Text;
             string allEmails = cells[4].Text;
             string allPhones = cells[5].Text;
-            
+
 
             return new ContactData(lastName, firstName)
             {
@@ -189,8 +189,8 @@ namespace WebAddressbookTests
             InitContactModification(index);
 
 
-            string lastName = driver.FindElement(By.Name("lastname")).GetAttribute("value"); 
-            string firstName = driver.FindElement(By.Name("firstname")).GetAttribute("value");            
+            string lastName = driver.FindElement(By.Name("lastname")).GetAttribute("value");
+            string firstName = driver.FindElement(By.Name("firstname")).GetAttribute("value");
 
             string address = driver.FindElement(By.Name("address")).GetAttribute("value");
 
@@ -202,7 +202,7 @@ namespace WebAddressbookTests
             string email2 = driver.FindElement(By.Name("email2")).GetAttribute("value");
             string email3 = driver.FindElement(By.Name("email3")).GetAttribute("value");
 
-            
+
             return new ContactData(lastName, firstName)
             {
                 Address = address,
@@ -216,14 +216,14 @@ namespace WebAddressbookTests
             };
         }
 
-        public int GetNumberOfSearchResults ()
+        public int GetNumberOfSearchResults()
         {
             manager.Navigator.GoToHomePage();
             string text = driver.FindElement(By.TagName("label")).Text;
             Match m = new Regex(@"\d+").Match(text);
             return Int32.Parse(m.Value);
         }
-        
+
         public string GetDetailInfoContact(int index)
         {
             manager.Navigator.GoToContactsPage();
@@ -237,7 +237,7 @@ namespace WebAddressbookTests
             else
             {
                 return allContactInfo.
-                    Replace("\r\n", " ").
+                    
                     Replace("H: ", "").
                     Replace("M: ", "").
                     Replace("W: ", "")
@@ -245,7 +245,7 @@ namespace WebAddressbookTests
             }
 
         }
-        public string GetTableInformationContacttoString(int index)
+        public string ContactTableToDetail(int index)
         {
             String lastName = GetContactInformationFromTable(index).Lastname;
             String firstName = GetContactInformationFromTable(index).Firstname;
@@ -254,11 +254,10 @@ namespace WebAddressbookTests
             String phones = GetContactInformationFromTable(index).AllPhones;
             String emails = GetContactInformationFromTable(index).AllEmails;
 
-            string allContactInfotable = (
-                firstName + " " + lastName + " " + address + "  " + phones + "  " + emails);
+            String ContactTableToDetail = firstName + " " +lastName + "\r\n" + address + "\r\n" + "\r\n" + phones + "\r\n" + "\r\n" + emails;
 
-            return allContactInfotable.Replace("\r\n", " ");
+            return ContactTableToDetail.Trim();
+
         }
-
     }
 }
