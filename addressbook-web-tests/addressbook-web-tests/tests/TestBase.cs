@@ -18,14 +18,20 @@ namespace WebAddressbookTests
         public static Random rnd = new Random();
         public static string GenerateRandomString(int max)
         {
+            const string chars =
+                "ABCDEFGHIJKLMNOPQRSTUVWXYZ" +
+                "abcdefghijklmnopqrstuvwxyz" +
+                "0123456789" +
+                "!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~";
 
-            int l = Convert.ToInt32(rnd.NextDouble()* max);
-            StringBuilder builder = new StringBuilder();
-            for (int i = 0; i < l; i++)
+            var random = new Random();
+            var result = new char[max];
+            for (int i = 0; i < max; i++)
             {
-                builder.Append(Convert.ToChar(32 + Convert.ToInt32(rnd.NextDouble() * 223)));
+                result[i] = chars[random.Next(chars.Length)];
             }
-            return builder.ToString();
+
+            return new string(result);
         }
 
     }

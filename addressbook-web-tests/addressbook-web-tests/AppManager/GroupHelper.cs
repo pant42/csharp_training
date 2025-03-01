@@ -110,6 +110,7 @@ namespace WebAddressbookTests
             return this;
 
         }
+
         private string randomGroupName;
         public string RandGName(int length)
         {

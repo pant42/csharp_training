@@ -39,21 +39,17 @@ namespace WebAddressbookTests
         }
         public string GeneratedRandAzNub(int length)
         {
-            const string letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
-            const string numbers = "0123456789";
+            const string chars =
+                "ABCDEFGHIJKLMNOPQRSTUVWXYZ" +
+                "abcdefghijklmnopqrstuvwxyz" +
+                "0123456789" +
+                "!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~";
+
             var random = new Random();
             var result = new char[length];
-
             for (int i = 0; i < length; i++)
             {
-                if (i % 2 == 0)
-                {
-                    result[i] = letters[random.Next(letters.Length)]; // Четные позиции — буквы
-                }
-                else
-                {
-                    result[i] = numbers[random.Next(numbers.Length)]; // Нечетные позиции — цифры
-                }
+                result[i] = chars[random.Next(chars.Length)];
             }
 
             return new string(result);
