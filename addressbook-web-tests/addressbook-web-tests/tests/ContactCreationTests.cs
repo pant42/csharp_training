@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Security.Cryptography;
 using NUnit.Framework;
+using System.IO;
+using System;
 
 
 
@@ -19,8 +21,22 @@ namespace WebAddressbookTests
             }
             return contacts;
         }
+        public static IEnumerable<ContactData> ContactDataFromFile()
+        {
+            List<ContactData> contacts = new List<ContactData>();
+            String[] lines = File.ReadAllLines(@"contacts.csv");
+            foreach (string l in lines)
+            {
+                String[] parts = l.Split(',');
+                contacts.Add(new ContactData(parts[0], parts[1])
+                {
+                    Address = parts[2],
+                });
+            }
+            return contacts;
+        }
 
-        [Test, TestCaseSource("RandomContactDataProvider")]
+        [Test, TestCaseSource("ContactDataFromFile")]
         public void ContactCreationTest(ContactData contact)
         {            
             List<ContactData> oldContacts = app.Contacts.GetContactList();
@@ -35,6 +51,7 @@ namespace WebAddressbookTests
             oldContacts.Sort();
             newContacts.Sort();
             Assert.AreEqual(oldContacts, newContacts);
+            
         }
 
     }

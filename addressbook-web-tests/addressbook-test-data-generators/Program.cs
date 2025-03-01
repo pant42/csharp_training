@@ -23,6 +23,16 @@ namespace addressbook_test_data_generators
             }
             writer.Close();
 
+
+            int countContacts = Convert.ToInt32(args[2]);
+            StreamWriter writerContacts = new StreamWriter(args[3]);
+
+            for (int i = 0; i < countContacts; i++)
+            {
+                writerContacts.WriteLine(String.Format("{0},{1},{2}",
+                    TestBase.GenerateRandomString(5), TestBase.GenerateRandomString(8), TestBase.GenerateRandomString(15)));
+            }
+            writerContacts.Close();
         }
     }
 }
