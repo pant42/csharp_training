@@ -5,6 +5,7 @@ using NUnit.Framework;
 using System.IO;
 using System;
 using System.Xml.Serialization;
+using Newtonsoft.Json;
 
 
 
@@ -23,6 +24,7 @@ namespace WebAddressbookTests
             }
             return contacts;
         }
+        //---------------------------------
         //Достаём данные из csv файла
         public static IEnumerable<ContactData> ContactDataFromCsvFile()
         {
@@ -45,10 +47,16 @@ namespace WebAddressbookTests
                 new XmlSerializer(typeof(List<ContactData>))
                 .Deserialize(new StreamReader(@"contacts.xml"));
         }
+        // Достаём данные из JSON файла
+        public static IEnumerable<ContactData> ContactDataFromJsonFile()
+        {
+            return JsonConvert.DeserializeObject<List<ContactData>>(File.ReadAllText(@"contacts.json"));
+        }
+        //---------------------------------
 
 
         //Сам тест
-        [Test, TestCaseSource("ContactDataFromXmlFile")]
+        [Test, TestCaseSource("ContactDataFromJsonFile")]
         public void ContactCreationTest(ContactData contact)
         {
             //Сохраняем oldContacts - старый список контактов

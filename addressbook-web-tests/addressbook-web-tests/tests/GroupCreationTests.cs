@@ -8,6 +8,7 @@ using System.IO;
 using NUnit.Framework.Constraints;
 using System.Xml;
 using System.Xml.Serialization;
+using Newtonsoft.Json;
 
 namespace WebAddressbookTests
 {
@@ -28,7 +29,7 @@ namespace WebAddressbookTests
             }
             return groups;
         }
-
+        //---------------------------------
         // Достаём данные из CSV файла
         public static IEnumerable<GroupData> GroupDataFromCsvFile()
         {
@@ -45,7 +46,6 @@ namespace WebAddressbookTests
             }
             return groups;
         }
-
         // Достаём данные из XML файла
         public static IEnumerable<GroupData> GroupDataFromXmlFile()
         {
@@ -53,9 +53,16 @@ namespace WebAddressbookTests
                 new XmlSerializer(typeof(List<GroupData>))
                 .Deserialize(new StreamReader(@"groups.xml"));
         }
+        // Достаём данные из JSON файла
+        public static IEnumerable<GroupData> GroupDataFromJsonFile()
+        {
+            return JsonConvert.DeserializeObject<List<GroupData>>(File.ReadAllText(@"groups.json"));
+        }
+        //---------------------------------
+
 
         // Сам тест
-        [Test, TestCaseSource("GroupDataFromXmlFile")]
+        [Test, TestCaseSource("GroupDataFromJsonFile")]
         public void GroupCreationTest(GroupData group)
         {
             // Сохраняем oldGroups - старый список групп

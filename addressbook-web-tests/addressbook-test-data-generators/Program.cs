@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using WebAddressbookTests;
 using System.Xml;
 using System.Xml.Serialization;
+using Newtonsoft.Json;
 
 
 namespace addressbook_test_data_generators
@@ -43,18 +44,19 @@ namespace addressbook_test_data_generators
             {
                 writeGroupsToCsvFile(groups, writer);
             }
+            else if (format == "xml")
+            {
+                writeGroupsToXmlFile(groups, writer);
+            }
+            else if (format == "json")
+            {
+                writeGroupsToJsonFile(groups, writer);
+            }
             else
             {
-                if (format == "xml")
-                {
-                    writeGroupsToXmlFile(groups, writer);
-                }
-                else
-                {
-                    System.Console.Out.Write("Неизвестный формат" + format + ". Введите либо csv, либо xml");
-                }
+                System.Console.Out.Write(" Не допустимый формат " + format + ". Допустимые значения формата(в конце вводимой строки): csv, xml, json");
             }
-            writer.Close();
+                writer.Close();
 
             //Генерация контактов
             List<ContactData> contacts = new List<ContactData>();
@@ -69,17 +71,20 @@ namespace addressbook_test_data_generators
             {
                 writeContactsToCsvFile(contacts, writerContacts);
             }
+            else if (format == "xml")
+            {
+                writeContactsToXmlFile(contacts, writerContacts);
+            }
+            else if (format == "json")
+            {
+                writeContactsToJsonFile(contacts, writerContacts);
+            }
             else
             {
-                if (format == "xml")
-                {
-                    writeContactsToXmlFile(contacts, writerContacts);
-                }
-                else
-                {
-                    System.Console.Out.Write("Неизвестный формат" + format + ". Введите либо csv, либо xml");
-                }
+                System.Console.Out.Write(" Не допустимый формат " + format + ". Допустимые значения формата(в конце вводимой строки): csv, xml, json");
             }
+            writerContacts.Close();
+
 
             // Методы для генерации Csv
             //Групп
@@ -91,7 +96,6 @@ namespace addressbook_test_data_generators
                         group.Name, group.Header, group.Footer));
                 }
             }
-
             //Контактов
             static void writeContactsToCsvFile(List<ContactData> contacts, StreamWriter writerContacts)
             {
@@ -101,7 +105,6 @@ namespace addressbook_test_data_generators
                         contact.Lastname, contact.Firstname, contact.Address));
                 }
             }
-
 
             // Методы для генерации Xml
             //Групп
@@ -114,6 +117,18 @@ namespace addressbook_test_data_generators
             static void writeContactsToXmlFile(List<ContactData> contacts, StreamWriter writerContacts)
             {
                 new XmlSerializer(typeof(List<ContactData>)).Serialize(writerContacts, contacts);
+            }
+
+            // Методы для генерации Json
+            //Групп
+            static void writeGroupsToJsonFile(List<GroupData> groups, StreamWriter writer)
+            {
+                writer.Write(JsonConvert.SerializeObject(groups, Newtonsoft.Json.Formatting.Indented));
+            }
+            //Контактов
+            static void writeContactsToJsonFile(List<ContactData> contacts, StreamWriter writerContacts)
+            {
+                writerContacts.Write(JsonConvert.SerializeObject(contacts, Newtonsoft.Json.Formatting.Indented));
             }
         }
     }

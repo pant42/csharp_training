@@ -6,6 +6,7 @@ namespace WebAddressbookTests
 {
     public class TestBase
     {
+        // Инициализация ApplicationManager в SetUp тестов (перед началом тестов)
         protected ApplicationManager app; 
 
         [SetUp]
@@ -15,6 +16,7 @@ namespace WebAddressbookTests
             
         }
 
+        // Функция рендома из заданных символов
         public static Random rnd = new Random();
         public static string GenerateRandomString(int max)
         {

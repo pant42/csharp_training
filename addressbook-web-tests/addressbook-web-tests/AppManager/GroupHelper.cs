@@ -13,7 +13,7 @@ namespace WebAddressbookTests
         public GroupHelper(ApplicationManager manager) : base(manager)
         {
         }
-
+        // Сложнгые методы для Создания, Модификации и Удаления uhegg
         public GroupHelper Create(GroupData group)
         {
             manager.Navigator.GoToGroupsPage();
@@ -22,6 +22,16 @@ namespace WebAddressbookTests
             SubmitGroupCreation();
             ReturnToGroupsPage();
 
+            return this;
+        }
+        public GroupHelper Modify(int p, GroupData newData)
+        {
+            manager.Navigator.GoToGroupsPage();
+            SelectGroupByIndex(p);
+            InitGroupModification();
+            FillGroupForm(newData);
+            SubmitGroupModification();
+            ReturnToGroupsPage();
             return this;
         }
         public GroupHelper RemoveGroup(int p)
@@ -34,71 +44,13 @@ namespace WebAddressbookTests
             return this;
         }
 
-        public GroupHelper Modify(int p, GroupData newData)
-        {
-            manager.Navigator.GoToGroupsPage();
-            SelectGroupByIndex(p);
-            InitGroupModification();
-            FillGroupForm(newData);
-            SubmitGroupModification();
-            ReturnToGroupsPage();
-            return this;
-        }
-
-        public GroupHelper InitNewGroupCreation()
-        {
-            driver.FindElement(By.Name("new")).Click();
-            return this;
-        }
-        public GroupHelper SubmitGroupCreation()
-        {
-            driver.FindElement(By.Name("submit")).Click();
-            groupCache=null;
-            return this;
-        }
-        public GroupHelper FillGroupForm(GroupData group)
-        {
-            Type(By.Name("group_name"), group.Name);
-            Type(By.Name("group_header"), group.Header);
-            Type(By.Name("group_footer"), group.Footer);
-
-            return this;
-        }
-
-        public GroupHelper SelectGroupByIndex(int index)
-        {            
-             driver.FindElement(By.XPath("(//input[@name= 'selected[]'])[" + (index + 1) + "]")).Click();
-             return this;            
-        }                  
-        public GroupHelper RemoveGroup()
-        {
-            driver.FindElement(By.Name("delete")).Click();
-            groupCache = null;
-            return this;
-        }
-        public GroupHelper ReturnToGroupsPage()
-        {
-            driver.FindElement(By.LinkText("groups")).Click();
-            return this;
-
-        }
-        public GroupHelper InitGroupModification()
-        {
-            driver.FindElement(By.Name("edit")).Click();
-            return this;
-        }
-        public GroupHelper SubmitGroupModification()
-        {
-            driver.FindElement(By.Name("update")).Click();
-            groupCache = null;
-            return this;
-        }
+        // Проверка наличия контакта в списке
         public GroupHelper IsAnyGroup()
         {
             manager.Navigator.GoToGroupsPage();
             if (IsElementPresent(By.Name("selected[]")))
             {
-                             
+
             }
             else
             {
@@ -111,15 +63,78 @@ namespace WebAddressbookTests
 
         }
 
+        // Простые методы для сложных
+        public GroupHelper InitNewGroupCreation()
+        {
+            driver.FindElement(By.Name("new")).Click();
+            return this;
+        }
+        public GroupHelper FillGroupForm(GroupData group)
+        {
+            Type(By.Name("group_name"), group.Name);
+            Type(By.Name("group_header"), group.Header);
+            Type(By.Name("group_footer"), group.Footer);
+
+            return this;
+        }
+        public GroupHelper SubmitGroupCreation()
+        {
+            driver.FindElement(By.Name("submit")).Click();
+            groupCache = null;
+            return this;
+        }
+        public GroupHelper ReturnToGroupsPage()
+        {
+            driver.FindElement(By.LinkText("groups")).Click();
+            return this;
+
+        }
+
+        // Селектор [] контакта
+        public GroupHelper SelectGroupByIndex(int index)
+        {            
+             driver.FindElement(By.XPath("(//input[@name= 'selected[]'])[" + (index + 1) + "]")).Click();
+             return this;            
+        }
+
+        // Кнопки
+        // Кнопка "delete"
+        public GroupHelper RemoveGroup()
+        {
+            driver.FindElement(By.Name("delete")).Click();
+            groupCache = null;
+            return this;
+        }
+        // Кнопка "edit"
+        public GroupHelper InitGroupModification()
+        {
+            driver.FindElement(By.Name("edit")).Click();
+            return this;
+        }
+        // Кнопка "Подтвердить"
+        public GroupHelper SubmitGroupModification()
+        {
+            driver.FindElement(By.Name("update")).Click();
+            groupCache = null;
+            return this;
+        }
+
+        // Для генерации новых имен групп
         private string randomGroupName;
         public string RandGName(int length)
         {
             return randomGroupName = GeneratedRandAzNub(length);
         }
 
-        private List<GroupData> groupCache = null;
-        
+        // Для тестов сравнения данных групп
+        // Для кол-ва элементов на странице (по span.group)
+        public int GetGroupCount()
+        {
+            return driver.FindElements(By.CssSelector("span.group")).Count;
+        }
 
+        // Для Списка контактов из Table
+        private List<GroupData> groupCache = null;        
         public List<GroupData> GetGroupList()
         {
             if (groupCache == null) 
@@ -159,9 +174,6 @@ namespace WebAddressbookTests
             return new List <GroupData> (groupCache);
         }
 
-        public int GetGroupCount()
-        {
-            return driver.FindElements(By.CssSelector("span.group")).Count;
-        }
+
     }
 }
