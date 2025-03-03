@@ -70,6 +70,13 @@ namespace WebAddressbookTests
         {
             Type(By.Name("firstname"), contact.Firstname);
             Type(By.Name("lastname"), contact.Lastname);
+            Type(By.Name("address"), contact.Address);
+            Type(By.Name("home"), contact.HomePhone);
+            Type(By.Name("mobile"), contact.MobilePhone);
+            Type(By.Name("work"), contact.WorkPhone);
+            Type(By.Name("email"), contact.Email);
+            Type(By.Name("email2"), contact.Email2);
+            Type(By.Name("email3"), contact.Email3);            
             return this;
         }
         public ContactHelper SubmitContactCreation()
@@ -194,7 +201,7 @@ namespace WebAddressbookTests
             String phones = GetContactInformationFromTable(index).AllPhones;
             String emails = GetContactInformationFromTable(index).AllEmails;
 
-            String ContactTableToDetail = firstName + " " + lastName + "\r\n" + address + "\r\n" + "\r\n" + phones + "\r\n" + "\r\n" + emails;
+            String ContactTableToDetail = GetContactInformationFromTable(index).AllDetailInfo;
 
             return ContactTableToDetail.Trim();
 

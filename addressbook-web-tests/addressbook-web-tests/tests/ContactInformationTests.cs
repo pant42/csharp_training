@@ -13,8 +13,8 @@ namespace WebAddressbookTests
         [Test]
         public void ContactTableInfoAccert() 
         {
-            ContactData fromTable = app.Contacts.GetContactInformationFromTable(0);
-            ContactData fromForm = app.Contacts.GetContactInformationFromEditForm(0);
+            ContactData fromTable = app.Contacts.GetContactInformationFromTable(2);
+            ContactData fromForm = app.Contacts.GetContactInformationFromEditForm(2);
 
             System.Console.Out.Write("В таблице видно Expected: " + fromTable);
             System.Console.Out.Write("На деталке видно But was: " + fromForm);

@@ -10,6 +10,8 @@ namespace WebAddressbookTests
         private string allPhones;
         private string allEmails;
         private string allDetailInfo;
+        private string firstLastName;
+        private string addressToDetail;
 
         public ContactData()
         {
@@ -21,11 +23,10 @@ namespace WebAddressbookTests
             Lastname = lastname;
             Firstname = firstname;            
         }
-        public string Lastname { get; set; }
-        public string Firstname { get; set; }
         public string Id { get; set; }
+        public string Lastname { get; set; }
+        public string Firstname { get; set; }        
         public string Address { get; set; }
-
 
         public string HomePhone { get; set; }
         public string MobilePhone { get; set; }
@@ -70,6 +71,42 @@ namespace WebAddressbookTests
             allPhones = value;
             }
         }
+        public string FirstLastName
+        {
+            get
+            {
+                if (firstLastName != null)
+                {
+                    return firstLastName;
+                }
+                else
+                {
+                    return (RemovedRn(Firstname) + RemovedRn(Lastname));
+                }
+            }
+            set
+            {
+                allPhones = value;
+            }
+        }
+        public string AddressToDetail
+        {
+            get
+            {
+                if (addressToDetail != null)
+                {
+                    return addressToDetail;
+                }
+                else
+                {
+                    return "\r\n" + AddressToDetail;
+                }
+            }
+            set
+            {
+                allPhones = value;
+            }
+        }
 
         public string AllDetailInfo
         {
@@ -81,7 +118,7 @@ namespace WebAddressbookTests
                 }
                 else
                 {
-                    return CleanUp(AllPhones) + CleanUp(AllEmails).Trim();
+                    return (FirstLastName + AddressToDetail + BlockRn(AllPhones) + BlockRn(AllEmails));
                 }
             }
             set
@@ -99,6 +136,28 @@ namespace WebAddressbookTests
             else 
             {
                 return Regex.Replace(phone,"[ -()]","") + "\r\n";
+            }
+        }
+        private string RemovedRn(string name)
+        {
+            if (name == null || name == "")
+            {
+                return "";
+            }
+            else
+            {
+                return name;
+            }
+        }
+        private string BlockRn(string block)
+        {
+            if (block == null || block == "")
+            {
+                return "";
+            }
+            else
+            {
+                return "\r\n\r\n" + block;
             }
         }
 
