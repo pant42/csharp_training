@@ -81,12 +81,12 @@ namespace WebAddressbookTests
                 }
                 else
                 {
-                    return (RemovedRn(Firstname) + RemovedRn(Lastname));
+                    return (RemovedRn(Firstname) + " " + RemovedRn(Lastname));
                 }
             }
             set
             {
-                allPhones = value;
+                firstLastName = value;
             }
         }
         public string AddressToDetail
@@ -99,12 +99,12 @@ namespace WebAddressbookTests
                 }
                 else
                 {
-                    return "\r\n" + AddressToDetail;
+                    return BlockRn(Address);
                 }
             }
             set
             {
-                allPhones = value;
+                addressToDetail = value;
             }
         }
 
@@ -118,12 +118,12 @@ namespace WebAddressbookTests
                 }
                 else
                 {
-                    return (FirstLastName + AddressToDetail + BlockRn(AllPhones) + BlockRn(AllEmails));
+                    return (FirstLastName + AddressToDetail + BlockDoubleRn(AllPhones) + BlockDoubleRn(AllEmails));
                 }
             }
             set
             {
-                allPhones = value;
+                allDetailInfo = value;
             }
         }
 
@@ -150,6 +150,17 @@ namespace WebAddressbookTests
             }
         }
         private string BlockRn(string block)
+        {
+            if (block == null || block == "")
+            {
+                return "";
+            }
+            else
+            {
+                return "\r\n" + block;
+            }
+        }
+        private string BlockDoubleRn(string block)
         {
             if (block == null || block == "")
             {

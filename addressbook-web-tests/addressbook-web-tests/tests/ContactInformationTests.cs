@@ -29,8 +29,8 @@ namespace WebAddressbookTests
         [Test]
         public void ContactTableDetailAccert()
         {            
-            String tableInfoContact = app.Contacts.ContactTableToDetail(0);
-            String detailInfoContact = app.Contacts.GetDetailInfoContact(0);
+            String tableInfoContact = app.Contacts.ContactTableToDetail(1);
+            String detailInfoContact = app.Contacts.GetDetailInfoContact(1);
              
             System.Console.Out.Write("Деталка контакта (Expected): " + detailInfoContact);
             System.Console.Out.Write("Собрано из данных в таблице (But was): " + tableInfoContact);

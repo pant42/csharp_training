@@ -201,7 +201,7 @@ namespace WebAddressbookTests
             String phones = GetContactInformationFromTable(index).AllPhones;
             String emails = GetContactInformationFromTable(index).AllEmails;
 
-            String ContactTableToDetail = GetContactInformationFromTable(index).AllDetailInfo;
+            String ContactTableToDetail = GetContactInformationFromTable(index).AllDetailInfo.Trim();
 
             return ContactTableToDetail;
 
