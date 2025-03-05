@@ -203,7 +203,7 @@ namespace WebAddressbookTests
 
             String ContactTableToDetail = GetContactInformationFromTable(index).AllDetailInfo;
 
-            return ContactTableToDetail.Trim();
+            return ContactTableToDetail;
 
         }
         // Для изъятия одного контакта из EditForm
