@@ -15,7 +15,7 @@ using System.Linq;
 namespace WebAddressbookTests
 {
     [TestFixture]
-    public class GroupCreationTests : AuthTestBase
+    public class GroupCreationTests : GroupTestBase
     {
         // Генерация случайных данных для групп
         public static IEnumerable<GroupData> RandomGroupDataProvider()
@@ -68,7 +68,7 @@ namespace WebAddressbookTests
         public void GroupCreationTest(GroupData group)
         {
             // Сохраняем oldGroups - старый список групп
-            List<GroupData> oldGroups = app.Groups.GetGroupList();
+            List<GroupData> oldGroups = GroupData.GetAll();
 
             // Добавляем новую группу на основе данных group - созданные вверху, в TestFixture
             app.Groups.Create(group);
@@ -79,7 +79,7 @@ namespace WebAddressbookTests
             Assert.AreEqual(oldGroups.Count + 1, app.Groups.GetGroupCount());
 
             // (подготовка) newGroups - это список групп после добавления + в список oldGroups добавляем созданную группу
-            List<GroupData> newGroups = app.Groups.GetGroupList();
+            List<GroupData> newGroups = GroupData.GetAll();
             oldGroups.Add(group);
 
             // (подготовка) сортируем список "до" и список "после"

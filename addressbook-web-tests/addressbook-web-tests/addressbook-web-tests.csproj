@@ -149,6 +149,7 @@
     <Compile Include="AppManager\HelperBase.cs" />
     <Compile Include="AppManager\LoginHelper.cs" />
     <Compile Include="AppManager\NavigationHelper.cs" />
+    <Compile Include="tests\GroupTestBase.cs" />
     <Compile Include="tests\LoginTests.cs" />
     <Compile Include="tests\SearchTests.cs" />
     <Compile Include="tests\TestBase.cs" />

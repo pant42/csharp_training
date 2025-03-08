@@ -90,11 +90,26 @@ namespace WebAddressbookTests
 
         }
 
-        // Селектор [] контакта
+        // Селектор [] группы
         public GroupHelper SelectGroupByIndex(int index)
         {            
              driver.FindElement(By.XPath("(//input[@name= 'selected[]'])[" + (index + 1) + "]")).Click();
              return this;            
+        }
+        public GroupHelper SelectGroupByStringId(string id)
+        {
+            driver.FindElement(By.XPath("(//input[@name= 'selected[]' and @value='" + id + "'])")).Click();
+            return this;
+        }
+        public GroupHelper Remove(GroupData group)
+        {
+            manager.Navigator.GoToGroupsPage();
+            SelectGroupByStringId(group.Id);
+            RemoveGroup();
+            ReturnToGroupsPage();
+
+            return this;
+
         }
 
         // Кнопки
@@ -105,6 +120,7 @@ namespace WebAddressbookTests
             groupCache = null;
             return this;
         }
+
         // Кнопка "edit"
         public GroupHelper InitGroupModification()
         {
@@ -173,7 +189,5 @@ namespace WebAddressbookTests
 
             return new List <GroupData> (groupCache);
         }
-
-
     }
 }

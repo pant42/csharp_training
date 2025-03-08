@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using NUnit.Framework;
 
@@ -6,12 +7,14 @@ namespace WebAddressbookTests
 {
     public class TestBase
     {
+        public static bool PERFORM_LONG_UI_CHECK = true;
         // Инициализация ApplicationManager в SetUp тестов (перед началом тестов)
         protected ApplicationManager app; 
 
         [SetUp]
         public void SetupApplicationManager()
         {
+            
             app = ApplicationManager.GetInstance();
             
         }
