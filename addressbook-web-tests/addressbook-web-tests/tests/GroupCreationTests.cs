@@ -9,6 +9,8 @@ using NUnit.Framework.Constraints;
 using System.Xml;
 using System.Xml.Serialization;
 using Newtonsoft.Json;
+using OpenQA.Selenium.DevTools.V130.Page;
+using System.Linq;
 
 namespace WebAddressbookTests
 {
@@ -87,5 +89,20 @@ namespace WebAddressbookTests
             // 2. Сравнение списков групп
             Assert.AreEqual(oldGroups, newGroups);
         }
+
+        [Test]
+        public void TestDBConnectivity()
+        {
+            DateTime start = DateTime.Now;
+            List<GroupData> fromUi = app.Groups.GetGroupList();
+            DateTime end = DateTime.Now;
+            System.Console.Out.WriteLine(end.Subtract(start));
+
+            start = DateTime.Now;
+            List<GroupData> fromDb = GroupData.GetAll();
+            end = DateTime.Now;
+            System.Console.Out.WriteLine(end.Subtract(start));
+        }
+
     }
 }

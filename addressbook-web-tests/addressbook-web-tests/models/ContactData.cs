@@ -2,9 +2,11 @@
 
 using System;
 using System.Text.RegularExpressions;
+using LinqToDB.Mapping;
 
 namespace WebAddressbookTests
 {
+    [Table(Name = "addressbook")]
     public class ContactData : IEquatable<ContactData>, IComparable<ContactData>
     {
         private string allPhones;
@@ -23,18 +25,40 @@ namespace WebAddressbookTests
             Lastname = lastname;
             Firstname = firstname;            
         }
+
+        [Column(Name = "id"), PrimaryKey, Identity]
         public string Id { get; set; }
+
+        [Column(Name = "lastname")]
         public string Lastname { get; set; }
-        public string Firstname { get; set; }        
+
+        [Column(Name = "firstname")]
+        public string Firstname { get; set; }
+
+        [Column(Name = "address")]
         public string Address { get; set; }
 
+
+        [Column(Name = "home")]
         public string HomePhone { get; set; }
+
+        [Column(Name = "mobile")]
         public string MobilePhone { get; set; }
+
+        [Column(Name = "work")]
         public string WorkPhone { get; set; }
 
+
+        [Column(Name = "email")]
         public string Email { get; set; }
+
+        [Column(Name = "email2")]
         public string Email2 { get; set; }
+
+        [Column(Name = "email3")]
         public string Email3 { get; set; }
+
+
         public string AllEmails
         {
             get

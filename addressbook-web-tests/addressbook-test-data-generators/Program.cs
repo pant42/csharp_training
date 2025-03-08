@@ -19,7 +19,7 @@ namespace addressbook_test_data_generators
 
         {
             // Всего 4 параметра: [0] Сколько Групп [1] groups.csv [2] Сколько Контактов [3] contacts.csv [4] Формат файлов
-            // 2 groups.xml 3 contacts.xml xml
+            // 2 groups.json 3 contacts.json json
 
             int count = Convert.ToInt32(args[0]);
             StreamWriter writer = new StreamWriter(args[1]);

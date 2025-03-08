@@ -24,7 +24,7 @@ namespace WebAddressbookTests
                 "ABCDEFGHIJKLMNOPQRSTUVWXYZ" +
                 "abcdefghijklmnopqrstuvwxyz" +
                 "0123456789" +
-                "!\"#$%()*+-./:;<=>?@[\\]^_{|}~";
+                "!#$%()*+-./:;<=>?@[]^_{|}~";
 
             var random = new Random();
             var result = new char[max];
