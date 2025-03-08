@@ -109,7 +109,16 @@ namespace WebAddressbookTests
             ReturnToGroupsPage();
 
             return this;
-
+        }
+        public GroupHelper ModifyThisGroup(GroupData group, GroupData newData)
+        {
+            manager.Navigator.GoToGroupsPage();
+            SelectGroupByStringId(group.Id);
+            InitGroupModification();
+            FillGroupForm(newData);
+            SubmitGroupModification();
+            ReturnToGroupsPage();
+            return this;
         }
 
         // Кнопки

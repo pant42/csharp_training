@@ -8,7 +8,7 @@ using System.Linq;
 
 namespace WebAddressbookTests
 {
-    [Table(Name = "contact_list")]
+    [Table(Name = "group_list")]
     public class GroupData : IEquatable<GroupData>, IComparable<GroupData>
     {
         public GroupData()
