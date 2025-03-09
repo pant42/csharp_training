@@ -21,15 +21,13 @@ namespace WebAddressbookTests
         {
 
         }
-
-        public ContactData (string lastname,string firstname)
+        public ContactData(string lastname, string firstname)
         {
             Lastname = lastname;
-            Firstname = firstname;            
+            Firstname = firstname;
         }
-
-        [Column(Name = "id"), PrimaryKey, Identity]
-        public int Id { get; set; }
+        [Column(Name = "id"), PrimaryKey]
+        public string Id { get; set; }
 
         [Column(Name = "lastname")]
         public string Lastname { get; set; }

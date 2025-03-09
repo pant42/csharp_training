@@ -15,7 +15,7 @@ namespace WebAddressbookTests
         {
         }
 
-        // Сложнгые методы для Создания, Модификации и Удаления контакта
+        // Создание контакта
         public ContactHelper Create(ContactData contact)
         {
             manager.Navigator.GoToContactsPage();
@@ -23,31 +23,87 @@ namespace WebAddressbookTests
             FillContactForm(contact);
             SubmitContactCreation();
             ReturnToContactsPage();
-
             return this;
         }
+        //Простые методы для создания контакта
+        public ContactHelper InitNewContactCreation()
+        {
+            driver.FindElement(By.LinkText("add new")).Click();
+            return this;
+        }
+        public ContactHelper FillContactForm(ContactData contact)
+        {
+            Type(By.Name("firstname"), contact.Firstname);
+            Type(By.Name("lastname"), contact.Lastname);
+            Type(By.Name("address"), contact.Address);
+            Type(By.Name("home"), contact.HomePhone);
+            Type(By.Name("mobile"), contact.MobilePhone);
+            Type(By.Name("work"), contact.WorkPhone);
+            Type(By.Name("email"), contact.Email);
+            Type(By.Name("email2"), contact.Email2);
+            Type(By.Name("email3"), contact.Email3);
+            return this;
+        }
+        public ContactHelper SubmitContactCreation()
+        {
+            driver.FindElement(By.XPath("//div[@id='content']/form/input[20]")).Click();
+            contactCache = null;
+            return this;
+        }
+        public void ReturnToContactsPage()
+        {
+            driver.FindElement(By.LinkText("home")).Click();
+        }
+
+        // Изменение (Modify) контакта
+        // Изменение первого (index = 0) контакта в таблице контактов
         public ContactHelper Modify(ContactData newData)
         {
             manager.Navigator.GoToContactsPage();
-            InitContactModification(0);
+            InitContactModificationByIntIndex(0);
             FillContactForm(newData);
             SubmitContactModification();
             ReturnToContactsPage();
             return this;
         }
+        // Изменение контакта по id bp передаваемого контакта из бд 
         public ContactHelper ModifyThisContact(ContactData contact, ContactData newData)
         {
             manager.Navigator.GoToContactsPage();
-            InitContactModification(contact.Id);
+            InitContactModificationByStringId(contact.Id);
             FillContactForm(newData);
             SubmitContactModification();
             ReturnToContactsPage();
             return this;
         }
+        // Простые методы для (Modify) изменения
+        public void InitContactModificationByIntIndex(int index)
+        {
+            driver.FindElements(By.Name("entry"))[index].FindElements(By.TagName("td"))[7].FindElement(By.TagName("a")).Click();
+        }
+        public ContactHelper SubmitContactModification()
+        {
+            driver.FindElement(By.Name("update")).Click();
+            contactCache = null;
+            return this;
+        }
+        public void InitContactModificationByStringId(string IdFromContact )
+        {
+            int id = Int32.Parse(IdFromContact);
+            driver.FindElement(By.XPath("//a[@href='edit.php?id=" + id + "']")).Click();
+        }
+        public void EditContactById(int index)
+        {
+            driver.FindElements(By.Name("entry"))[index]
+    .FindElements(By.TagName("td"))[6]
+    .FindElement(By.TagName("a")).Click();
+        }
+
+        // Удаление контакта
         public ContactHelper DeleteContact()
         {
             manager.Navigator.GoToContactsPage();
-            InitContactModification(0);
+            InitContactModificationByIntIndex(0);
             RemoveContact();
             ReturnToContactsPage();
             return this;
@@ -55,7 +111,7 @@ namespace WebAddressbookTests
         public ContactHelper DeleteThisContact(ContactData contact)
         {
             manager.Navigator.GoToContactsPage();
-            InitContactModification(contact.Id);
+            SelectContactByStringId(contact.Id);
             RemoveContact();
             ReturnToContactsPage();
             return this;
@@ -77,66 +133,22 @@ namespace WebAddressbookTests
             return this;
         }
 
-        // Простые методы для сложных
-        public ContactHelper InitNewContactCreation()
-        {
-            driver.FindElement(By.LinkText("add new")).Click();
-            return this;
-        }
-        public ContactHelper FillContactForm(ContactData contact)
-        {
-            Type(By.Name("firstname"), contact.Firstname);
-            Type(By.Name("lastname"), contact.Lastname);
-            Type(By.Name("address"), contact.Address);
-            Type(By.Name("home"), contact.HomePhone);
-            Type(By.Name("mobile"), contact.MobilePhone);
-            Type(By.Name("work"), contact.WorkPhone);
-            Type(By.Name("email"), contact.Email);
-            Type(By.Name("email2"), contact.Email2);
-            Type(By.Name("email3"), contact.Email3);            
-            return this;
-        }
-        public ContactHelper SubmitContactCreation()
-        {
-            driver.FindElement(By.XPath("//div[@id='content']/form/input[20]")).Click();
-            contactCache = null;
-            return this;
-        }
-        public void ReturnToContactsPage()
-        {
-            driver.FindElement(By.LinkText("home")).Click();
-        }
-        // Селектор [] контакта и "Изменить"
+        // Селектор [] контакта
         public ContactHelper SelectContact()
         {
             driver.FindElement(By.Name("selected[]")).Click();
             return this;
         }
-        public void InitContactModification(int index)
+        public ContactHelper SelectContactByStringId(string id)
         {
-            driver.FindElements(By.Name("entry"))[index]
-                .FindElements(By.TagName("td"))[7]
-                .FindElement(By.TagName("a")).Click();
-        }
-
-        // Кнопки
-        // Кнопка "update"
-        public ContactHelper ModifyContact()
-        {
-            driver.FindElement(By.Name("update")).Click();
+            driver.FindElement(By.XPath("//input[@id='" + id + "']")).Click();
             return this;
         }
+
         // Кнопка "Удалить" внутри контакта
         public ContactHelper RemoveContact()
         {
             driver.FindElement(By.XPath("//form[2]/input[2]")).Click();
-            contactCache = null;
-            return this;
-        }
-        // Кнопка "Подтвердить"
-        public ContactHelper SubmitContactModification()
-        {
-            driver.FindElement(By.Name("update")).Click();
             contactCache = null;
             return this;
         }
@@ -225,7 +237,7 @@ namespace WebAddressbookTests
         public ContactData GetContactInformationFromEditForm(int index)
         {
             manager.Navigator.GoToContactsPage();
-            InitContactModification(index);
+            InitContactModificationByIntIndex(index);
 
 
             string lastName = driver.FindElement(By.Name("lastname")).GetAttribute("value");

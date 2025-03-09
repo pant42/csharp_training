@@ -133,6 +133,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="models\AddressbookDB.cs" />
+    <Compile Include="models\GroupContactRelation.cs" />
     <Compile Include="tests\AuthTestBase.cs" />
     <Compile Include="tests\ContactInformationTests.cs" />
     <Compile Include="tests\ContactModificationTests.cs" />
