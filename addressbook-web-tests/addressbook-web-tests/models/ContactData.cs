@@ -69,7 +69,7 @@ namespace WebAddressbookTests
                 }
                 else
                 {
-                    return CleanUp(Email) + CleanUp(Email2) + CleanUp(Email3).Trim();
+                    return (FormatEndRN(Email) + FormatEndRN(Email2) + FormatEndRN(Email3)).Trim();
                 }
             }
             set
@@ -77,6 +77,18 @@ namespace WebAddressbookTests
                 allEmails = value;
             }
         }
+        private string FormatEndRN(string mail)
+        {
+            if (mail == null || mail == "")
+            {
+                return "";
+            }
+            else
+            {
+                return (mail + "\r\n");
+            }
+        }
+
         public string AllPhones
         {
             get
@@ -95,6 +107,20 @@ namespace WebAddressbookTests
             allPhones = value;
             }
         }
+        private string CleanUp(string phone)
+        {
+            if (phone == null || phone == "")
+            {
+                return "";
+            }
+            else
+            {
+                return Regex.Replace(phone, "[ -()]", "") + "\r\n";
+            }
+        }
+
+        //Для пересборки данных из таблицы контактов
+        //Фио первая строка
         public string FirstLastName
         {
             get
@@ -105,7 +131,7 @@ namespace WebAddressbookTests
                 }
                 else
                 {
-                    return (RemovedRn(Firstname) + " " + RemovedRn(Lastname));
+                    return (RemovedRn(Firstname) + " " + RemovedRn(Lastname)).Trim();
                 }
             }
             set
@@ -113,6 +139,19 @@ namespace WebAddressbookTests
                 firstLastName = value;
             }
         }
+        private string RemovedRn(string name)
+        {
+            if (name == null || name == "")
+            {
+                return "";
+            }
+            else
+            {
+                return name;
+            }
+        }
+
+        //Адресс для пересборки
         public string AddressToDetail
         {
             get
@@ -131,7 +170,19 @@ namespace WebAddressbookTests
                 addressToDetail = value;
             }
         }
+        private string BlockRn(string block)
+        {
+            if (block == null || block == "")
+            {
+                return "";
+            }
+            else
+            {
+                return "\r\n" + block;
+            }
+        }
 
+        //Пересборка всей информации из table под вид в деталке
         public string AllDetailInfo
         {
             get
@@ -150,40 +201,6 @@ namespace WebAddressbookTests
                 allDetailInfo = value;
             }
         }
-
-        private string CleanUp(string phone)
-        {
-            if (phone == null || phone == "" )
-            {
-                return "";
-            }
-            else 
-            {
-                return Regex.Replace(phone,"[ -()]","") + "\r\n";
-            }
-        }
-        private string RemovedRn(string name)
-        {
-            if (name == null || name == "")
-            {
-                return "";
-            }
-            else
-            {
-                return name;
-            }
-        }
-        private string BlockRn(string block)
-        {
-            if (block == null || block == "")
-            {
-                return "";
-            }
-            else
-            {
-                return "\r\n" + block;
-            }
-        }
         private string BlockDoubleRn(string block)
         {
             if (block == null || block == "")
@@ -196,6 +213,7 @@ namespace WebAddressbookTests
             }
         }
 
+        //Для сопоставления
         public bool Equals(ContactData other)
         {
             if (Object.ReferenceEquals(other, null))
