@@ -15,7 +15,6 @@ namespace WebAddressbookTests
         private string firstLastName;
         private string addressToDetail;
         private string allPhonesToDetail;
-
         public ContactData()
         {
 
@@ -100,7 +99,7 @@ namespace WebAddressbookTests
                 }
                 else
                 {
-                    return CleanUp(HomePhone) + CleanUp(MobilePhone) + CleanUp(WorkPhone).Trim();
+                    return (CleanUp(HomePhone) + CleanUp(MobilePhone) + CleanUp(WorkPhone)).Trim();
                 }
             }
             set
@@ -116,7 +115,13 @@ namespace WebAddressbookTests
             }
             else
             {
-                return Regex.Replace(phone, "[ -()]", "") + "\r\n";
+                return phone.
+                    Replace(" ","").
+                    Replace("-","").
+                    Replace("(","").
+                    Replace(")", "")
+                    + "\r\n"
+                    ;
             }
         }
 
@@ -194,7 +199,7 @@ namespace WebAddressbookTests
                 }
                 else
                 {
-                    return PrefixHome(HomePhone) + PrefixMobile(MobilePhone) + PrefixWork(WorkPhone).Trim();
+                    return (PrefixHome(HomePhone) + PrefixMobile(MobilePhone) + PrefixWork(WorkPhone)).Trim();
                 }
             }
             set
@@ -247,7 +252,7 @@ namespace WebAddressbookTests
                 }
                 else
                 {
-                    return (FirstLastName + AddressToDetail + BlockDoubleRn(AllPhonesToDetail) + BlockDoubleRn(AllEmails));
+                    return (FirstLastName + AddressToDetail + BlockDoubleRn(AllPhones) + BlockDoubleRn(AllEmails));
                 }
             }
             set

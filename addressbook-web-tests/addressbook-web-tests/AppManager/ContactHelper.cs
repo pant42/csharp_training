@@ -97,7 +97,6 @@ namespace WebAddressbookTests
         }
         public void InitContactModification(int index)
         {
-
             driver.FindElements(By.Name("entry"))[index]
                 .FindElements(By.TagName("td"))[7]
                 .FindElement(By.TagName("a")).Click();
@@ -188,7 +187,6 @@ namespace WebAddressbookTests
                 Address = address,
                 AllEmails = allEmails,
                 AllPhones = allPhones
-
             };
         }
         // Пересобираем изъятые данные из Table
@@ -235,7 +233,6 @@ namespace WebAddressbookTests
                 Email = email,
                 Email2 = email2,
                 Email3 = email3
-
             };
         }
         // Для изъятия одного контакта из DetailPage
@@ -244,15 +241,11 @@ namespace WebAddressbookTests
             manager.Navigator.GoToContactsPage();
             InitContactDetailsPage(index);
 
-            string allContactInfo = driver.FindElement(By.CssSelector("div#content")).Text;
-            if (allContactInfo == null || allContactInfo == "")
-            {
-                return "";
-            }
-            else
-            {
-                return allContactInfo;
-            }
+            return driver.FindElement(By.CssSelector("div#content")).Text
+                .Replace("H: ", "")
+                .Replace("M: ", "")
+                .Replace("W: ", "")
+                ;
         }
 
         // Для тестов "Сколько найдено"
