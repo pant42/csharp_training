@@ -14,7 +14,6 @@ namespace WebAddressbookTests
         {      
 
         }
-
         public ITable<GroupData> Groups { get { return this.GetTable<GroupData>(); } }
         public ITable<ContactData> Contacts { get { return this.GetTable<ContactData>(); } }
     }

@@ -1,6 +1,7 @@
 ﻿
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Reflection;
 using System.Text.RegularExpressions;
 using OpenQA.Selenium;
@@ -32,13 +33,29 @@ namespace WebAddressbookTests
             FillContactForm(newData);
             SubmitContactModification();
             ReturnToContactsPage();
-
+            return this;
+        }
+        public ContactHelper ModifyThisContact(ContactData contact, ContactData newData)
+        {
+            manager.Navigator.GoToContactsPage();
+            InitContactModification(contact.Id);
+            FillContactForm(newData);
+            SubmitContactModification();
+            ReturnToContactsPage();
             return this;
         }
         public ContactHelper DeleteContact()
         {
             manager.Navigator.GoToContactsPage();
             InitContactModification(0);
+            RemoveContact();
+            ReturnToContactsPage();
+            return this;
+        }
+        public ContactHelper DeleteThisContact(ContactData contact)
+        {
+            manager.Navigator.GoToContactsPage();
+            InitContactModification(contact.Id);
             RemoveContact();
             ReturnToContactsPage();
             return this;
@@ -159,7 +176,7 @@ namespace WebAddressbookTests
                     String Firstname = element.FindElement(By.XPath("td[3]")).Text;
                     ContactData contact = new ContactData(Lastname, Firstname)
                     {
-                        Id = element.FindElement(By.TagName("input")).GetAttribute("value")
+                       Id = element.FindElement(By.TagName("input")).GetAttribute("value")
                     };
 
                     contactCache.Add(contact);

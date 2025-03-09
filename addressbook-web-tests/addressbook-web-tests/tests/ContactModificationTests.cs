@@ -15,28 +15,35 @@ namespace WebAddressbookTests
         [Test]
         public void ContactModificationTest()
         {
+            // Проверка наличия контакта
             app.Contacts.IsAnyContact();
 
-            ContactData newData = new ContactData(app.Contacts.RandCName(5) + "LnMdc", app.Contacts.RandCName(5) + "FnMdc");
+            // Создаем ContactData объект, на который изменим группу
+            ContactData newData = new ContactData("LnMdc","FnMdc");
 
-            List<ContactData> oldContacts = app.Contacts.GetContactList();
-            ContactData oldData = oldContacts[0];
+            // Сбор информации ДО удаления
+            List<ContactData> oldContacts = ContactData.GetAll();
+            ContactData toBeModify = oldContacts[0];
 
-            app.Contacts.Modify(newData);
+            // Само изменение контакта
+            app.Contacts.ModifyThisContact(toBeModify, newData);
 
+            // 1. Сравнение: [кол-ва До] = [кол-во ПОСЛЕ] - 1
             Assert.AreEqual(oldContacts.Count, app.Contacts.GetContactCount());
 
-            List<ContactData> newContacts = app.Contacts.GetContactList();
-            oldContacts[0].Firstname = newData.Firstname;
+            // (подготовка 2) Снова собираем список контактов ПОСЛЕ УДАЛЕНИЯ
+            List<ContactData> newContacts = ContactData.GetAll();
+            // (подготовка 2) Из старого списка переименовываем контакт под индексом [0]
             oldContacts[0].Lastname = newData.Lastname;
+            oldContacts[0].Firstname = newData.Firstname;
 
-            oldContacts.Sort();
-            newContacts.Sort();
+            // 2. Сравнение списков newGroups и oldGroups
             Assert.AreEqual(oldContacts, newContacts);
 
+            // 3. Проверка индексов
             foreach (ContactData contact in newContacts)
             {
-                if (contact.Id == oldData.Id)
+                if (contact.Id == toBeModify.Id)
                 {
                     Assert.AreEqual(newData.Lastname, contact.Lastname);
                     Assert.AreEqual(newData.Firstname, contact.Firstname);

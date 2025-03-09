@@ -10,28 +10,38 @@ namespace WebAddressbookTests
         [Test]
         public void GroupModificationTest()
         {
+            // Проверка наличия группы
             app.Groups.IsAnyGroup();
 
-            GroupData newData = new GroupData(app.Groups.RandGName(5)+ "MdN");
-            newData.Header = app.Groups.RandGName(6) + "MdH";
-            newData.Footer = app.Groups.RandGName(7) + "MdF";
+            // Создаем GroupData объект, на который изменим группу
+            GroupData groupModifyData = new GroupData("MdN");
+            groupModifyData.Header = "MdH";
+            groupModifyData.Footer = "MdF";
 
+            // Сбор информации ДО удаления
             List<GroupData> oldGroups = GroupData.GetAll();
             GroupData toBeModify = oldGroups[0];
 
-            app.Groups.ModifyThisGroup(toBeModify, newData);
+            // Само изменение группы
+            app.Groups.ModifyThisGroup(toBeModify, groupModifyData);
 
+            // 1. Сравнение: [кол-ва До] = [кол-во ПОСЛЕ] - 1
             Assert.AreEqual(oldGroups.Count, app.Groups.GetGroupCount());
 
+            // (подготовка 2) Снова собираем список групп ПОСЛЕ УДАЛЕНИЯ
             List<GroupData> newGroups = GroupData.GetAll();
+            // (подготовка 2) Из старого списка переименовываем группу под индексом [0]
+            oldGroups[0].Name = groupModifyData.Name;
 
+            // 2. Сравнение списков newGroups и oldGroups
             Assert.AreEqual(oldGroups, newGroups);
 
+            // 3. Проверка индексов
             foreach (GroupData group in newGroups)
             {
                 if (group.Id == toBeModify.Id)
                 {
-                    Assert.AreEqual(newData.Name, toBeModify.Name);
+                    Assert.AreEqual(groupModifyData.Name, group.Name);
                 }
             }
         }

@@ -101,13 +101,12 @@ namespace WebAddressbookTests
             driver.FindElement(By.XPath("(//input[@name= 'selected[]' and @value='" + id + "'])")).Click();
             return this;
         }
-        public GroupHelper Remove(GroupData group)
+        public GroupHelper RemoveThisGroup(GroupData group)
         {
             manager.Navigator.GoToGroupsPage();
             SelectGroupByStringId(group.Id);
             RemoveGroup();
             ReturnToGroupsPage();
-
             return this;
         }
         public GroupHelper ModifyThisGroup(GroupData group, GroupData newData)

@@ -60,24 +60,18 @@ namespace WebAddressbookTests
         public void ContactCreationTest(ContactData contact)
         {
             //Сохраняем oldContacts - старый список контактов
-            List<ContactData> oldContacts = app.Contacts.GetContactList();
+            List<ContactData> oldContacts = ContactData.GetAll();
 
             // Добавляем новый контакт на основе данных contact - созданные вверху, в TestFixture 
             app.Contacts.Create(contact);
 
-            //Наши проверки:
-
             //1. Кол-во контактов "до" (oldContacts) + 1 = Текущему кол-ву контактов
             Assert.AreEqual(oldContacts.Count + 1, app.Contacts.GetContactCount());
 
-
             //(подготовка) newContacts - это список контактов после добавления + в список oldContacts добавляем созданный
-            List<ContactData> newContacts = app.Contacts.GetContactList();
+            List<ContactData> newContacts = ContactData.GetAll();
             oldContacts.Add(contact);
 
-            //(подготовка) сортируем список "до" и список "после"
-            oldContacts.Sort();
-            newContacts.Sort();
             //2. Сравнение списков контактов
             Assert.AreEqual(oldContacts, newContacts);
             

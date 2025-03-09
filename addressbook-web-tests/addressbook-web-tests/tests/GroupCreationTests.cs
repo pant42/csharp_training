@@ -72,19 +72,13 @@ namespace WebAddressbookTests
 
             // Добавляем новую группу на основе данных group - созданные вверху, в TestFixture
             app.Groups.Create(group);
-
-            // Наши проверки:
-
+            
             // 1. Кол-во групп "до" (oldGroups) + 1 = Текущему кол-ву групп
             Assert.AreEqual(oldGroups.Count + 1, app.Groups.GetGroupCount());
 
             // (подготовка) newGroups - это список групп после добавления + в список oldGroups добавляем созданную группу
             List<GroupData> newGroups = GroupData.GetAll();
             oldGroups.Add(group);
-
-            // (подготовка) сортируем список "до" и список "после"
-            oldGroups.Sort();
-            newGroups.Sort();
 
             // 2. Сравнение списков групп
             Assert.AreEqual(oldGroups, newGroups);

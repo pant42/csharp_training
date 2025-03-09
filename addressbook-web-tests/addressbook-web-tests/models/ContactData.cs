@@ -1,8 +1,10 @@
 ﻿
 
 using System;
+using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using LinqToDB.Mapping;
+using System.Linq;
 
 namespace WebAddressbookTests
 {
@@ -27,7 +29,7 @@ namespace WebAddressbookTests
         }
 
         [Column(Name = "id"), PrimaryKey, Identity]
-        public string Id { get; set; }
+        public int Id { get; set; }
 
         [Column(Name = "lastname")]
         public string Lastname { get; set; }
@@ -317,6 +319,14 @@ namespace WebAddressbookTests
             ;
 
 
+        }
+
+        public static List<ContactData> GetAll()
+        {
+            using (AddressbookDB db = new AddressbookDB())
+            {
+                return (from g in db.Contacts select g).ToList();
+            }
         }
     }
 }

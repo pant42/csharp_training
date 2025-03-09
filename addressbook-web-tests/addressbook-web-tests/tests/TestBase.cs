@@ -26,8 +26,7 @@ namespace WebAddressbookTests
             const string chars =
                 "ABCDEFGHIJKLMNOPQRSTUVWXYZ" +
                 "abcdefghijklmnopqrstuvwxyz" +
-                "0123456789" +
-                "!#$%()*+-./:;<=>?@[]^_{|}~";
+                "0123456789" ;
 
             var random = new Random();
             var result = new char[max];
