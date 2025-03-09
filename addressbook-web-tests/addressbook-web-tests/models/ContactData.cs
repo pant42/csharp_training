@@ -14,6 +14,7 @@ namespace WebAddressbookTests
         private string allDetailInfo;
         private string firstLastName;
         private string addressToDetail;
+        private string allPhonesToDetail;
 
         public ContactData()
         {
@@ -182,6 +183,59 @@ namespace WebAddressbookTests
             }
         }
 
+        //Телефоны с префиксами для деталки
+        public string AllPhonesToDetail
+        {
+            get
+            {
+                if (allPhonesToDetail != null)
+                {
+                    return allPhonesToDetail;
+                }
+                else
+                {
+                    return PrefixHome(HomePhone) + PrefixMobile(MobilePhone) + PrefixWork(WorkPhone).Trim();
+                }
+            }
+            set
+            {
+                allPhones = value;
+            }
+        }
+        private string PrefixHome(string homePhone)
+        {
+            if (homePhone == null || homePhone == "")
+            {
+                return "";
+            }
+            else
+            {
+                return "H: ";
+            }
+        }
+        private string PrefixMobile(string mobilePhone)
+        {
+            if (mobilePhone == null || mobilePhone == "")
+            {
+                return "";
+            }
+            else
+            {
+                return "M: ";
+            }
+        }
+        private string PrefixWork(string workPhone)
+        {
+            if (workPhone == null || workPhone == "")
+            {
+                return "";
+            }
+            else
+            {
+                return "W: ";
+            }
+        }
+
         //Пересборка всей информации из table под вид в деталке
         public string AllDetailInfo
         {
@@ -193,7 +247,7 @@ namespace WebAddressbookTests
                 }
                 else
                 {
-                    return (FirstLastName + AddressToDetail + BlockDoubleRn(AllPhones) + BlockDoubleRn(AllEmails));
+                    return (FirstLastName + AddressToDetail + BlockDoubleRn(AllPhonesToDetail) + BlockDoubleRn(AllEmails));
                 }
             }
             set

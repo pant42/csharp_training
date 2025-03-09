@@ -251,12 +251,7 @@ namespace WebAddressbookTests
             }
             else
             {
-                return allContactInfo.
-
-                    Replace("H: ", "").
-                    Replace("M: ", "").
-                    Replace("W: ", "")
-                    ;
+                return allContactInfo;
             }
         }
 
