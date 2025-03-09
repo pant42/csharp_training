@@ -111,7 +111,7 @@ namespace WebAddressbookTests
         public ContactHelper DeleteThisContact(ContactData contact)
         {
             manager.Navigator.GoToContactsPage();
-            SelectContactByStringId(contact.Id);
+            InitContactModificationByStringId(contact.Id);
             RemoveContact();
             ReturnToContactsPage();
             return this;
@@ -141,7 +141,7 @@ namespace WebAddressbookTests
         }
         public ContactHelper SelectContactByStringId(string id)
         {
-            driver.FindElement(By.XPath("//input[@id='" + id + "']")).Click();
+            driver.FindElement(By.XPath("(//input[@name= 'selected[]' and @value='" + id + "'])")).Click();
             return this;
         }
 
