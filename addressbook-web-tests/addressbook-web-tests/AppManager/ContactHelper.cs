@@ -316,8 +316,39 @@ namespace WebAddressbookTests
             driver.FindElement(By.Name("add")).Click();
         }
 
+        // Методы для удаления контакта из группы
+        // Метод для проверки есть ли контакты - с помощью выборки из БД первого [0] элемента
+        public ContactHelper СheckIfThereContact()
+        {
+            ContactData contact = ContactData.GetAll()[0];
+            if (contact == null)
+            {
+                ContactData creatingContactToAddingInGroup = new ContactData ("LnToAdd", "FnToAdd");
+                Create(creatingContactToAddingInGroup);
+            }
+            return this;
+        }
 
+        // Ищем контакты, входящие в группу groupName
+        public ContactHelper FindContactsInGroup(string groupName)
+        {
+            SelectFilterByGroupName(groupName);            
+            return this;
+        }
+        // Установить фильтр группы по groupName
+        public void SelectFilterByGroupName(string groupName)
+        {
+            new SelectElement(driver.FindElement(By.Name("group"))).SelectByText(groupName);
+        }
+        // Нажатие кнопки "удалить из группы
+        public void RemovingContactFromGroup(string groupName)
+        {
+            driver.FindElement(By.Name("remove")).Click();
+        }
 
-
+        internal string GetContactFromGCR()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
