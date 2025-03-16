@@ -198,17 +198,6 @@ namespace WebAddressbookTests
             return new List <GroupData> (groupCache);
         }
 
-        public GroupHelper СheckIfThereGroup()
-        {
-            GroupData group = GroupData.GetAll()[0];
-            if (group == null)
-            {
-                GroupData creatingGroupToAddingInGroup = new GroupData("NameToAdd");
-                Create(creatingGroupToAddingInGroup);
-            }
-            return this;
-        }
-
         internal string GetGroupNameFromGCR()
         {
             int GroupIdFromGCR = GroupData.GetContacts().[0].Id

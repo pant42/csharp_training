@@ -317,17 +317,6 @@ namespace WebAddressbookTests
         }
 
         // Методы для удаления контакта из группы
-        // Метод для проверки есть ли контакты - с помощью выборки из БД первого [0] элемента
-        public ContactHelper СheckIfThereContact()
-        {
-            ContactData contact = ContactData.GetAll()[0];
-            if (contact == null)
-            {
-                ContactData creatingContactToAddingInGroup = new ContactData ("LnToAdd", "FnToAdd");
-                Create(creatingContactToAddingInGroup);
-            }
-            return this;
-        }
 
         // Ищем контакты, входящие в группу groupName
         public ContactHelper FindContactsInGroup(string groupName)
