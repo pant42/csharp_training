@@ -346,9 +346,10 @@ namespace WebAddressbookTests
             driver.FindElement(By.Name("remove")).Click();
         }
 
-        internal string GetContactFromGCR()
+        public string GetContactIdFromGCR()
         {
-            throw new NotImplementedException();
+            List<ContactData> GCRContactId = GroupData.GetContact();
+            string contactIdFromGCR = GCRContactId.Get
         }
     }
 }

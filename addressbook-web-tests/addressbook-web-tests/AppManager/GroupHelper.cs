@@ -211,7 +211,9 @@ namespace WebAddressbookTests
 
         internal string GetGroupNameFromGCR()
         {
-            throw new NotImplementedException();
+            int GroupIdFromGCR = GroupData.GetContacts().[0].Id
+            string groupName = GroupData.GetAll()[0].Id;
+            return groupName;
         }
     }
 }

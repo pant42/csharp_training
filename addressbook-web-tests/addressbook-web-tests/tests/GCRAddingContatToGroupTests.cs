@@ -7,10 +7,10 @@ using NUnit.Framework;
 
 namespace WebAddressbookTests
 {
-    public class ContactToGroupAddingTests : AuthTestBase
+    public class GCRAddingContatToGroupTests : AuthTestBase
     {
         [Test]
-        public void ContactToGroupAdd()
+        public void GCRAddingContatToGroup()
         {
             // Берем весь список Групп GetAll и забираем в переменную group [0] элемент
             GroupData group = GroupData.GetAll()[0];

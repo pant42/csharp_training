@@ -11,20 +11,36 @@ namespace addressbook_tests_autoit
     public class ApplicationManager
     {
         public static string WINTITLE = "Free Address Book";
-        public ApplicationManager() 
+        public ApplicationManager()
         {
             groupHelper = new GroupHelper(this);
             aux = new AutoItX3();
-            aux.Run(@"C:\Tools\AppsForTesting\Addressbook\AddressBook.exe","",aux.SW_SHOW);
-            aux.WinWait(WINTITLE);
-            aux.WinActivate(WINTITLE);
-            aux.WinWaitActive(WINTITLE);
+            try
+            {
+                aux = new AutoItX3();
+                if (aux == null)
+                {
+                    Console.WriteLine("Ошибка: объект AutoItX3 не создан.");
+                    throw new InvalidOperationException("Не удалось создать объект AutoItX3.");
+                }
+
+                Console.WriteLine("AutoItX3 успешно инициализирован.");
+                aux.Run(@"C:\Tools\AppsForTesting\Addressbook\AddressBook.exe", "", aux.SW_SHOW);
+                aux.WinWait(WINTITLE);
+                aux.WinActivate(WINTITLE);
+                aux.WinWaitActive(WINTITLE);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Ошибка при инициализации AutoItX3: " + ex.Message);
+                throw;
+            }
         }
+
         private AutoItX3 aux;
         public AutoItX3 Aux
         {
             get { return aux; }
-
         }
         
         public void Stop()

@@ -7,17 +7,17 @@ using NUnit.Framework;
 
 namespace WebAddressbookTests
 {
-    public class ContactToGroupRemovingTests : AuthTestBase
+    public class GCRRemoveContatFromGroupTests : AuthTestBase
     {
         [Test]
-        public void ContactToGroupRemove()
+        public void GCRRemoveContatFromGroup()
         {
             // Проверка есть ли в БД [0] нулевой элемент в списке контактов/ групп
             app.Contacts.СheckIfThereContact();
             app.Groups.СheckIfThereGroup();
 
             // Забираем из БД [GetId контакта] и [GetName Имя группы], из таблицы связанных контактов и групп
-            string contactId = app.Contacts.GetContactFromGCR();
+            string contactId = app.Contacts.GetContactIdFromGCR();
             string groupName = app.Groups.GetGroupNameFromGCR();
 
             // Отбираем контакты входящие в группу groupName

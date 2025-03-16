@@ -134,7 +134,7 @@
   <ItemGroup>
     <Compile Include="models\AddressbookDB.cs" />
     <Compile Include="models\GroupContactRelation.cs" />
-    <Compile Include="tests\ContactToGroupAddingTests.cs" />
+    <Compile Include="tests\GCRAddingContatToGroupTests.cs" />
     <Compile Include="tests\AuthTestBase.cs" />
     <Compile Include="tests\ContactInformationTests.cs" />
     <Compile Include="tests\ContactModificationTests.cs" />
@@ -154,7 +154,7 @@
     <Compile Include="AppManager\NavigationHelper.cs" />
     <Compile Include="tests\GroupTestBase.cs" />
     <Compile Include="tests\LoginTests.cs" />
-    <Compile Include="tests\ContactToGroupRemovingTests.cs" />
+    <Compile Include="tests\GCRRemoveContatFromGroupTests.cs" />
     <Compile Include="tests\SearchTests.cs" />
     <Compile Include="tests\TestBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
