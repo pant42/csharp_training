@@ -27,8 +27,5 @@ namespace addressbook_tests_autoit
         {
             app.Stop();
         }
-
-
-
     }
 }

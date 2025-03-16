@@ -93,8 +93,9 @@
   <ItemGroup>
     <Compile Include="appmanager\ApplicationManager.cs" />
     <Compile Include="model\GroupData.cs" />
-    <Compile Include="tests\GroupHelper.cs" />
-    <Compile Include="tests\HelperBase.cs" />
+    <Compile Include="appmanager\GroupHelper.cs" />
+    <Compile Include="tests\GroupRemovingTests.cs" />
+    <Compile Include="appmanager\HelperBase.cs" />
     <Compile Include="tests\TestBase.cs" />
     <Compile Include="tests\GroupCreationTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
