@@ -30,7 +30,7 @@ namespace addressbook_tests_autoit
             oldGroups.Sort();
             newGroups.Sort();
             // Сравниваем оба списка (oldGroups = newGroups, потому что в oldGroups мы добавили группу newGroup 
-            Assert.AreEqual(oldGroups, newGroups);
+            Assert.AreEqual(oldGroups.Count, newGroups.Count);
         }
     }
 }

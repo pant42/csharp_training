@@ -12,7 +12,7 @@ namespace addressbook_tests_autoit
         public void Add(GroupData newGroup)
         {
             OpenGroupsDialogue();
-            aux.ControlClick(WINTITLE, "", "WindowsForms10.BUTTON.app.0.2c908d53");
+            aux.ControlClick(GROUPWINTITLE, "", "WindowsForms10.BUTTON.app.0.2c908d53");
             aux.Send(newGroup.Name);
             aux.Send("{ENTER}");
             CloseGroupsDialogue();
@@ -57,22 +57,27 @@ namespace addressbook_tests_autoit
             }
         }
 
-        internal void RemovingGroup(GroupData removedGroupName)
+        public static string DELETEGROUPWINTITLE = "Delete group";
+        internal void RemovingGroup()
         {
             // Открываем список групп
-            OpenGroupsDialogue();
+            OpenGroupsDialogue();  
 
             // Клик по имени удаляемой группы
-            aux.ControlClick(WINTITLE, "", removedGroupName.Name);
+            aux.Send("{DOWN}");
+
 
             // Клик по "удалить"
-            aux.ControlClick(WINTITLE, "", "WindowsForms10.BUTTON.app.0.2c908d51");
+            aux.ControlClick(GROUPWINTITLE, "", "WindowsForms10.BUTTON.app.0.2c908d51");
 
-            // Подтверждение удаления
-            aux.ControlClick(WINTITLE, "", "WindowsForms10.BUTTON.app.0.2c908d51");
+            // Подтверждение удаления выбором круглешка 
+            aux.WinWait(DELETEGROUPWINTITLE);
+            aux.WinActivate(DELETEGROUPWINTITLE);
+            aux.WinWaitActive(DELETEGROUPWINTITLE);
+            aux.ControlClick(DELETEGROUPWINTITLE, "", "WindowsForms10.BUTTON.app.0.2c908d51");
 
             // Нажимаем "ок"
-            aux.ControlClick(WINTITLE, "", "WindowsForms10.BUTTON.app.0.2c908d53");
+            aux.ControlClick(DELETEGROUPWINTITLE, "", "WindowsForms10.BUTTON.app.0.2c908d53");
             
             CloseGroupsDialogue();
         }
@@ -83,10 +88,12 @@ namespace addressbook_tests_autoit
         {
             aux.ControlClick(WINTITLE, "", "WindowsForms10.BUTTON.app.0.2c908d512");
             aux.WinWait(GROUPWINTITLE);
+            aux.WinActivate(GROUPWINTITLE);
+            aux.WinWaitActive(GROUPWINTITLE);
         }
         private void CloseGroupsDialogue()
         {
-            aux.ControlClick(WINTITLE, "", "WindowsForms10.BUTTON.app.0.2c908d54");
+            aux.ControlClick(GROUPWINTITLE, "", "WindowsForms10.BUTTON.app.0.2c908d54");
         }
 
 
