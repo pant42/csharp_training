@@ -4,8 +4,10 @@ using System.Collections.Generic;
 using System.Data;
 using System.Reflection;
 using System.Text.RegularExpressions;
+using Google.Protobuf.WellKnownTypes;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
+using static LinqToDB.Reflection.Methods.LinqToDB;
 
 namespace WebAddressbookTests
 {
@@ -43,6 +45,12 @@ namespace WebAddressbookTests
             Type(By.Name("email"), contact.Email);
             Type(By.Name("email2"), contact.Email2);
             Type(By.Name("email3"), contact.Email3);
+            return this;
+        }
+        public ContactHelper SimpleFillingContactForm(ContactData contact)
+        {
+            Type(By.Name("firstname"), contact.Firstname);
+            Type(By.Name("lastname"), contact.Lastname);
             return this;
         }
         public ContactHelper SubmitContactCreation()
@@ -286,13 +294,34 @@ namespace WebAddressbookTests
             Match m = new Regex(@"\d+").Match(text);
             return Int32.Parse(m.Value);
         }
+        // Для GCRAdding
+        // Для предусловия
+        // Установить фильтр контактов по [none] - не входящих в группу
+        public void ShowContactsNoneGroup()
+        {
+            manager.Navigator.GoToContactsPage();
+            new SelectElement(driver.FindElement(By.Name("group"))).SelectByText("[none]");
+        }
 
         // Для тестов по добавлению контактов в группы
         public void AddContactToGroup(ContactData contact, GroupData group)
         {
             manager.Navigator.GoToHomePage();
             ClearGroupFilter();
+            ShowContactsNoneGroup();
             SelectContact(contact.Id);
+            SelectGroupToAdd(group.Name);
+            CommitAddingContactToGroup();
+
+            new WebDriverWait(driver, TimeSpan.FromSeconds(10))
+                .Until(d => d.FindElements(By.CssSelector("div.msgbox")).Count > 0);
+        }
+        public void AddContactToGroupByContactId(string id, GroupData group)
+        {
+            manager.Navigator.GoToHomePage();
+            ClearGroupFilter();
+            ShowContactsNoneGroup();
+            SelectContact(id);
             SelectGroupToAdd(group.Name);
             CommitAddingContactToGroup();
 
@@ -317,7 +346,6 @@ namespace WebAddressbookTests
         }
 
         // Методы для удаления контакта из группы
-
         // Ищем контакты, входящие в группу groupName
         public ContactHelper FindContactsInGroup(string groupName)
         {
@@ -329,16 +357,55 @@ namespace WebAddressbookTests
         {
             new SelectElement(driver.FindElement(By.Name("group"))).SelectByText(groupName);
         }
+
+
         // Нажатие кнопки "удалить из группы
         public void RemovingContactFromGroup(string groupName)
         {
             driver.FindElement(By.Name("remove")).Click();
         }
 
-        public string GetContactIdFromGCR()
+        internal string GetContactIdFromGCR()
         {
-            List<ContactData> GCRContactId = GroupData.GetContact();
-            string contactIdFromGCR = GCRContactId.Get
+            throw new NotImplementedException();
+        }
+
+        public string GetFirstContactId()
+        {
+            return driver.FindElement(By.XPath("//table[@id='maintable']//tr[@name='entry'][1]//input[@name='selected[]']"))
+                .GetAttribute("value");
+        }
+        public void CheckIfThereAnyContact()
+        {
+            manager.Navigator.GoToContactsPage();
+            int co = GetContactCount();
+            if (co == 0)
+            {
+                ContactData CreatedContact = new ContactData("GCRAddingLnNone", "GCRAddingFnNone");
+                Create(CreatedContact);
+            }
+        }
+        public string GetContactIdGroupNone()
+        {
+            // Устанавливаем фильтр групп на [none], чтобы выбрать контакты, не входящие в группы
+            ShowContactsNoneGroup();
+
+            // Получаем ID первого контакта из таблицы с помощью метода GetFirstContactId
+            string firstContactNoneGroupId = GetFirstContactId();
+            SelectContactByStringId(firstContactNoneGroupId);
+            return firstContactNoneGroupId;
+        }
+
+        public void CheckIfThereAnyContactInNoneGroup()
+        {
+            manager.Navigator.GoToContactsPage();
+            ShowContactsNoneGroup();
+            int co = GetContactCount();
+            if (co == 0)
+            {
+                ContactData CreatedContact = new ContactData("GCRAddingLnNone", "GCRAddingFnNone");
+                Create(CreatedContact);
+            }
         }
     }
 }

@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Text.RegularExpressions;
+using Google.Protobuf.WellKnownTypes;
 using OpenQA.Selenium;
 
 namespace WebAddressbookTests
@@ -200,9 +201,16 @@ namespace WebAddressbookTests
 
         internal string GetGroupNameFromGCR()
         {
-            int GroupIdFromGCR = GroupData.GetContacts().[0].Id
-            string groupName = GroupData.GetAll()[0].Id;
-            return groupName;
+            throw new NotImplementedException();
+        }
+        public void CheckIfThereAnyGroup()
+        {
+            int gr = IsAnyGroup().GetGroupCount();
+            if (gr == 0)
+            {
+                GroupData groupToAddContact = new GroupData("GCRNameGroup");
+                Create(groupToAddContact);
+            }
         }
     }
 }
