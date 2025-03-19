@@ -23,6 +23,8 @@ namespace WebAddressbookTests
         protected GroupHelper groupHelper;
         protected ContactHelper contactHelper;
 
+        protected GCRHelper gcrHelper;
+
         private static ThreadLocal<ApplicationManager> app= new ThreadLocal<ApplicationManager>();
 
         private ApplicationManager()
@@ -98,7 +100,14 @@ namespace WebAddressbookTests
                 return contactHelper;
             }
         }
-        
+        public GCRHelper GCRHelper
+        {
+            get
+            {
+                return gcrHelper;
+            }
+        }
+
 
 
         public void Stop()

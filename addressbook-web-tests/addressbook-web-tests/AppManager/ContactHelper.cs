@@ -143,7 +143,7 @@ namespace WebAddressbookTests
         }
 
         // Селектор [] контакта
-        public ContactHelper SelectContact()
+        public ContactHelper SelectFirstContact()
         {
             driver.FindElement(By.Name("selected[]")).Click();
             return this;
@@ -365,11 +365,6 @@ namespace WebAddressbookTests
             driver.FindElement(By.Name("remove")).Click();
         }
 
-        internal string GetContactIdFromGCR()
-        {
-            throw new NotImplementedException();
-        }
-
         public string GetFirstContactId()
         {
             return driver.FindElement(By.XPath("//table[@id='maintable']//tr[@name='entry'][1]//input[@name='selected[]']"))
@@ -406,6 +401,38 @@ namespace WebAddressbookTests
                 ContactData CreatedContact = new ContactData("GCRAddingLnNone", "GCRAddingFnNone");
                 Create(CreatedContact);
             }
+        }
+
+        public void AddAnyContactToAnyGroup(GroupData group)
+        {
+            manager.Navigator.GoToHomePage();
+            ClearGroupFilter();
+            ShowContactsNoneGroup();
+            SelectFirstContact();
+            SelectGroupToAdd(group.Name);
+            CommitAddingContactToGroup();
+
+            new WebDriverWait(driver, TimeSpan.FromSeconds(10))
+                .Until(d => d.FindElements(By.CssSelector("div.msgbox")).Count > 0);
+        }
+        public List<GroupContactRelation> GetNotNullGCREntires(List<GroupContactRelation> gcrEntries)
+        {
+            if (gcrEntries.Count == 0)
+            {
+                List<GroupData> groups = GroupData.GetAll();
+                GroupData groupAdd = groups[0];
+                AddAnyContactToAnyGroup(groupAdd);
+                manager.Navigator.GoToContactsPage();
+                // Перепроверяем в БД GroupContactRelation и перезаписываем gcrEntries
+                List<GroupContactRelation> gcrEntriesAfterCountZero;
+                using (var db = new AddressbookDB())
+                {
+                    gcrEntriesAfterCountZero = db.GetAllGroupContactRelations();
+                }
+                gcrEntries = gcrEntriesAfterCountZero;
+            }
+
+            return gcrEntries;
         }
     }
 }

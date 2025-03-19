@@ -199,10 +199,6 @@ namespace WebAddressbookTests
             return new List <GroupData> (groupCache);
         }
 
-        internal string GetGroupNameFromGCR()
-        {
-            throw new NotImplementedException();
-        }
         public void CheckIfThereAnyGroup()
         {
             int gr = IsAnyGroup().GetGroupCount();

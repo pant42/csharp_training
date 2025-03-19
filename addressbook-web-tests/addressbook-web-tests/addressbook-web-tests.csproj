@@ -132,6 +132,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AppManager\GCRHelper.cs" />
     <Compile Include="models\AddressbookDB.cs" />
     <Compile Include="models\GroupContactRelation.cs" />
     <Compile Include="tests\GCRAddingContatToGroupTests.cs" />
