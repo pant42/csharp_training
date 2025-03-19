@@ -18,20 +18,13 @@ namespace WebAddressbookTests
             List<GroupContactRelation> gcrEntries = GCRHelper.GetGCRList();
             // Обеспечиваем НЕ пустой список gcrEntries
             gcrEntries = app.Contacts.GetNotNullGCREntires(gcrEntries);
-            
-            // Выводим в консоль все GroupId и ContactId а если пусто - так и пишем
-            foreach (var entry in gcrEntries)
-            {
-                Console.WriteLine($"GroupId: {entry.GroupId}, ContactId: {entry.ContactId}");
-            }
-            Assert.IsTrue(gcrEntries.Count > 0, "Нет записей в таблице GroupContactRelation");
 
-            // Берем первую запись из таблицы GroupContactRelation
-            GroupContactRelation gcrEntry = gcrEntries[0];
+            // Выводим в консоль все GroupId и ContactId из Списка gcrEntries
+            GCRHelper.LogsOutContactGroupIds(gcrEntries);
 
-            // Получаем ID группы и контакта
-            string groupId = gcrEntry.GroupId;
-            string contactId = gcrEntry.ContactId;
+            // Берем groupId и contactId
+            string groupId,contactId;
+            GCRHelper.GetIdContactAndGroupFromGCRList(gcrEntries, out groupId, out contactId);
             Console.WriteLine("Взяли groupId: " + groupId + " Взяли ContactId: " + contactId);
 
             // Получаем имя группы по ID
