@@ -363,7 +363,12 @@ namespace WebAddressbookTests
         public void RemovingContactFromGroup(string groupName)
         {
             driver.FindElement(By.Name("remove")).Click();
+            new WebDriverWait(driver, TimeSpan.FromSeconds(10))
+.Until(d => d.FindElements(By.CssSelector("div.msgbox")).Count > 0);
+            manager.Navigator.GoToContactsPage();
         }
+        
+
 
         public string GetFirstContactId()
         {

@@ -39,6 +39,7 @@ namespace WebAddressbookTests
 
             // Удаляем контакт из группы
             app.Contacts.RemovingContactFromGroup(group.Name);
+            
 
             // Проверяем, что в таблице GroupContactRelation больше нет пары GroupId и ContactId
             List<GroupContactRelation> updatedGcrEntries;
