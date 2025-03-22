@@ -28,7 +28,7 @@ namespace WebAddressbookTests
             ReturnToContactsPage();
             return this;
         }
-        //Простые методы для создания контакта
+        // Простые методы для создания контакта
         public ContactHelper InitNewContactCreation()
         {
             driver.FindElement(By.LinkText("add new")).Click();
