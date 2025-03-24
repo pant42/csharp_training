@@ -61,21 +61,27 @@ namespace mantis_tests
         public void OpenProjectPage()
         {
             manager.Navigator.GoToProjectPage();
+
         }
 
-        // Для Списка проектов из Списка проектов
+        // Для Списка проектов из таблицы
         private List<ProjectData> projectCache = null;
-
-        public List<ProjectData> GetAllProjecstList()
+        // Ждем пока будет таблица с проектами на странице
+        public void WaitWhileProjectTableAppear()
         {
+            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(3));
+            wait.Until(d => d.FindElement(By.XPath("//table[@class='table table-striped table-bordered table-condensed table-hover']")));
+        }
+        //Сам сбор проектов с таблицы, распаршивание по ProjectData.Id, ProjectData.Name, ProjectData.Description
+        public List<ProjectData> GetAllProjecstList()
+        {            
             if (projectCache == null)
             {
                 projectCache = new List<ProjectData>();
                 manager.Navigator.GoToProjectPage();
 
                 // Ожидание загрузки таблицы
-                WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(3));
-                wait.Until(d => d.FindElement(By.XPath("//table[@class='table table-striped table-bordered table-condensed table-hover']")));
+                WaitWhileProjectTableAppear();
 
                 // Находим строки таблицы с проектами
                 ICollection<IWebElement> rows = driver.FindElements(
@@ -114,5 +120,72 @@ namespace mantis_tests
             return new List<ProjectData>(projectCache);
         }
 
+        // Для удаления проекта
+        public void ThereAlwaysBeenSomeProject()
+        {
+            manager.Navigator.GoToControlPage();
+            manager.Navigator.GoToProjectPage();
+            WaitWhileProjectTableAppear();
+
+            // Проверяем наличие строк в таблице проектов
+            var projectsTable = driver.FindElement(
+                By.XPath("//table[@class='table table-striped table-bordered table-condensed table-hover']"));
+
+            var projectRows = projectsTable.FindElements(By.XPath(".//tbody/tr"));
+
+            // Если нет строк с проектами (пустая таблица)
+            if (projectRows.Count == 0)
+            {
+                Console.WriteLine("Проекты не найдены, создаем временный проект");
+                ProjectData createdProjectToRemove = new ProjectData("NameProjectToRemove")
+                {
+                    Description = "Временный проект для тестирования"
+                };
+                CreateProject(createdProjectToRemove);
+            }
+        }
+
+        public ProjectData TakeProject()
+        {
+            manager.Navigator.GoToProjectPage();
+            // Ожидание загрузки таблицы
+            WaitWhileProjectTableAppear();
+            // Находим первую строку таблицы с проектами
+            IWebElement firstRow = driver.FindElement(
+                By.XPath("//table[@class='table table-striped table-bordered table-condensed table-hover']/tbody/tr[1]")
+            );
+            try
+            {
+                // Извлекаем данные из столбцов таблицы
+                string id = firstRow.FindElement(By.XPath("./td/a")).GetAttribute("href").Split('=')[1];
+                string name = firstRow.FindElement(By.XPath("./td/a")).Text;
+                string description = firstRow.FindElement(By.XPath("./td[5]")).Text;
+
+                Console.WriteLine($"Взятый проект: ID: {id}, Name: {name}, Description: {description}");
+
+                // Создаем и возвращаем объект ProjectData
+                ProjectData takedFirstProject = new ProjectData(name)
+                {
+                    Description = description,
+                    Id = id
+                };
+                return takedFirstProject;
+            }
+            catch (NoSuchElementException ex)
+            {
+                Console.WriteLine($"Не изъяли первый проект: {ex.Message}");
+                return null; 
+            }
+        }
+        public void DeleteFirstProject(ProjectData projectToDelete)
+        {
+            driver.FindElement(
+                By.XPath(
+                    "//table[@class='table table-striped table-bordered table-condensed table-hover']" +
+                    "//a[text()=" + "'" + projectToDelete.Name + "'" + "]")).Click();
+            driver.FindElement(By.XPath("//input[@value='Удалить проект']")).Click();
+            driver.FindElement(By.XPath("//input[@value='Удалить проект']")).Click();
+            projectCache = null;
+        }
     }
 }
