@@ -19,8 +19,8 @@ namespace mantis_tests
             FillProjectForm(projectData);
             ApplyProjectCreation();
             // Ожидание кнопки на окне списка проектов "Управление проектами"
-            By manageProjectsLinkLocator = By.XPath("//a[@href='/mantisbt-2.2.0/manage_proj_page.php']");                        
-            WaitForElementAndClick(manageProjectsLinkLocator);
+            By manageProjectsLinkLocator = By.XPath("//input[@value='создать новый проект']']");                        
+            WaitForElement(manageProjectsLinkLocator);
 
             projectCache = null; // Очистка кэша
         }
@@ -42,7 +42,7 @@ namespace mantis_tests
             driver.FindElement(By.XPath("//input[@value='Добавить проект']")).Click();
             projectCache = new List<ProjectData>();
         }
-        public void WaitForElementAndClick(By locator, int timeoutInSeconds = 10)
+        public void WaitForElement(By locator, int timeoutInSeconds = 10)
         {
             // Создаем объект WebDriverWait с таймаутом
             WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(timeoutInSeconds));
