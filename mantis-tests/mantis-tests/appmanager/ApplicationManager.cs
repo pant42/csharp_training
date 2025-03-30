@@ -26,6 +26,8 @@ namespace mantis_tests
         protected ProjectHelper projectHelper;
         protected NavigationHelper navigator;
 
+        public AdminHelper Admin { get;  set; }
+
         private static ThreadLocal<ApplicationManager> app= new ThreadLocal<ApplicationManager>();
 
         private ApplicationManager()
@@ -46,6 +48,7 @@ namespace mantis_tests
             loginHelper = new LoginHelper(this); // Для создания Проекта в Мантисе
             projectHelper = new ProjectHelper(this);
             navigator = new NavigationHelper(this, baseUrl, controlPageUrl);
+            Admin = new AdminHelper(this, baseUrl);
 
         }
         
