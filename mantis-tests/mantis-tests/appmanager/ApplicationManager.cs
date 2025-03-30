@@ -1,101 +1,77 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenQA.Selenium;
-using OpenQA.Selenium.BiDi.Modules.BrowsingContext;
 using OpenQA.Selenium.Chrome;
-using OpenQA.Selenium.Internal;
-
 namespace mantis_tests
 {
     public class ApplicationManager
     {
-        
-        private StringBuilder verificationErrors;
+        // 1. WebDriver и связанные поля
         private ChromeDriver driver;
-        private bool acceptNextAlert = true;
+
+        // 2. URL и конфигурация
         public string baseUrl;
         protected string controlPageUrl;
 
-        // Для создания Проекта в Мантисе
-        protected LoginHelper loginHelper;
-        protected ProjectHelper projectHelper;
-        protected NavigationHelper navigator;
+        // 3. Helpers
+        private LoginHelper loginHelper;
+        private ProjectHelper projectHelper;
+        private NavigationHelper navigator;
+        private RegistrationHelper registrationHelper;
+        private FtpHelper ftpHelper;
+        private AdminHelper adminHelper;
+        private APIHelper apiHelper;
 
-        public AdminHelper Admin { get;  set; }
+        // 4. ThreadLocal для управления экземплярами
+        private static ThreadLocal<ApplicationManager> app = new ThreadLocal<ApplicationManager>();
 
-        private static ThreadLocal<ApplicationManager> app= new ThreadLocal<ApplicationManager>();
-
+        // 5. Конструктор
         private ApplicationManager()
         {
-            // Драйвер + подождать пока инициализируется
+            // Инициализация драйвера
             driver = new ChromeDriver();
             driver.Manage().Window.Maximize();
             driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(1);
-                        
-            // Базовый адрес
-            baseUrl = "http://localhost/mantisbt-2.2.0/login_page.php";
-            controlPageUrl = "http://localhost/mantisbt-2.2.0/manage_overview_page.php";
 
-            // Хэлперы все тут
-            Registration = new RegistrationHelper(this);
-            Ftp = new FtpHelper(this);
-            
-            loginHelper = new LoginHelper(this); // Для создания Проекта в Мантисе
-            projectHelper = new ProjectHelper(this);
+            // Базовые URL
+            baseUrl = "http://localhost/mantisbt-2.22.1/login_page.php?return=%2Fmantisbt-2.22.1%2Faccount_page.php";
+            controlPageUrl = "http://localhost/mantisbt-2.22.1/manage_overview_page.php";
+
+            // Инициализация хелперов (в порядке зависимости)
             navigator = new NavigationHelper(this, baseUrl, controlPageUrl);
-            Admin = new AdminHelper(this, baseUrl);
-
+            loginHelper = new LoginHelper(this);
+            projectHelper = new ProjectHelper(this);
+            registrationHelper = new RegistrationHelper(this);
+            ftpHelper = new FtpHelper(this);
+            adminHelper = new AdminHelper(this, baseUrl);
+            apiHelper = new APIHelper(this);
         }
-        
-        public static ApplicationManager GetInstance () 
+
+        // 6. Методы
+        public static ApplicationManager GetInstance()
         {
-            if (! app.IsValueCreated) 
+            if (!app.IsValueCreated)
             {
                 ApplicationManager newInstance = new ApplicationManager();
-                newInstance.driver.Url = "http://localhost/mantisbt-2.2.0/login_page.php";
+                newInstance.driver.Url = newInstance.baseUrl;
                 app.Value = newInstance;
             }
             return app.Value;
         }
 
-        public IWebDriver Driver 
+        public void Stop()
         {
-            get 
-            { 
-                return driver; 
-            }
+            // Логика остановки
         }
-        public RegistrationHelper Registration { get; private set; }
-        public FtpHelper Ftp { get; private set; }
 
-        public void Stop() { }
-
-        public LoginHelper Auth
-        {
-
-            get
-            {
-                return loginHelper;
-            }
-        }
-        public ProjectHelper Project
-        {
-            get
-            {
-                return projectHelper;
-            }
-        }
-        public NavigationHelper Navigator
-        {
-            get
-            {
-                return navigator;
-            }
-        }
+        // 7. Свойства для доступа к Helpers
+        public IWebDriver Driver => driver;
+        public AdminHelper Admin => adminHelper;
+        public APIHelper API => apiHelper;
+        public FtpHelper Ftp => ftpHelper;
+        public LoginHelper Auth => loginHelper;
+        public NavigationHelper Navigator => navigator;
+        public ProjectHelper Project => projectHelper;
+        public RegistrationHelper Registration => registrationHelper;
     }
 }

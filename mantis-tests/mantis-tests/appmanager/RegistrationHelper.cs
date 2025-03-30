@@ -21,11 +21,11 @@ namespace mantis_tests
 
         private void OpenMainPage()
         {
-            manager.Driver.Url = "http://localhost/mantisbt-2.2.0/login_page.php";
+            manager.Driver.Url = manager.baseUrl + "login_page.php";
         }
         private void OpenRegistrationForm()
         {
-            driver.FindElement(By.LinkText("зарегистрировать новую учетную запись")).Click();
+            driver.FindElement(By.CssSelector("a[href*='signup_page.php']")).Click();
         }
         private void FillRegistrationForm(AccountData account)
         {

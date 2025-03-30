@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using NUnit.Framework;
+using OpenQA.Selenium.DevTools.V132.Page;
 
 namespace mantis_tests
 {
@@ -32,6 +33,30 @@ namespace mantis_tests
             beforeDeletionjectsList.Sort();
             afterCreateProjectsList.Sort();
             Assert.AreEqual(beforeDeletionjectsList, afterCreateProjectsList);
+        }
+
+        [Test]
+        public void ProjectDeletionCheckByApi()
+        {
+            // Предусловие
+            app.API.ThereAlwaysSomeProjectByApi();
+
+            // Получаем список проектов ДО теста (через API)
+            List<Mantis.ProjectData> beforeDeletionList = app.API.GetProjectsByApi().ToList();
+
+            // Удаляем проект через UI
+            ProjectData projectToDelete = app.Project.TakeProject();
+            app.Project.DeleteFirstProject(projectToDelete);
+
+            // Получаем список ПОСЛЕ удаления (через API)
+            List<Mantis.ProjectData> afterDeleteList = app.API.GetProjectsByApi().ToList();
+            // Удаляем проект из исходного списка
+            beforeDeletionList.RemoveAll(p => p.id == projectToDelete.Id);
+
+            // Сортируем и сравниваем
+            beforeDeletionList.Sort((p1, p2) => p1.name.CompareTo(p2.name));
+            afterDeleteList.Sort((p1, p2) => p1.name.CompareTo(p2.name));
+            Assert.AreEqual(beforeDeletionList.Count, afterDeleteList.Count);
         }
     }
 }

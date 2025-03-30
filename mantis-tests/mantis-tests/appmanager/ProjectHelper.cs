@@ -61,7 +61,6 @@ namespace mantis_tests
         public void OpenProjectPage()
         {
             manager.Navigator.GoToProjectPage();
-
         }
 
         // Для Списка проектов из таблицы
@@ -186,6 +185,31 @@ namespace mantis_tests
             driver.FindElement(By.XPath("//input[@value='Удалить проект']")).Click();
             driver.FindElement(By.XPath("//input[@value='Удалить проект']")).Click();
             projectCache = null;
+        }
+
+        // Для проверки по апи
+        public void ApiThereAlwaysBeenSomeProject()
+        {
+            manager.Navigator.GoToControlPage();
+            manager.Navigator.GoToProjectPage();
+            WaitWhileProjectTableAppear();
+
+            // Проверяем наличие строк в таблице проектов
+            var projectsTable = driver.FindElement(
+                By.XPath("//table[@class='table table-striped table-bordered table-condensed table-hover']"));
+
+            var projectRows = projectsTable.FindElements(By.XPath(".//tbody/tr"));
+
+            // Если нет строк с проектами (пустая таблица)
+            if (projectRows.Count == 0)
+            {
+                Console.WriteLine("Проекты не найдены, создаем временный проект");
+                ProjectData createdProjectToRemove = new ProjectData("NameProjectToRemove")
+                {
+                    Description = "Временный проект для тестирования"
+                };
+                CreateProject(createdProjectToRemove);
+            }
         }
     }
 }

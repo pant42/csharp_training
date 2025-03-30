@@ -10,10 +10,20 @@ namespace mantis_tests
 {
     public class NavigationHelper : HelperBase
     {
+        private string baseURL;
         private string controlPageUrl;
         public NavigationHelper(ApplicationManager manager, string baseURL, string controlPageUrl) : base(manager)
         {
+            this.baseURL = baseURL;
             this.controlPageUrl = controlPageUrl;
+        }
+        public void OpenHomePage()
+        {
+            if (driver.Url == baseURL || string.IsNullOrEmpty(driver.Url))
+            {
+                return;
+            }
+            driver.Navigate().GoToUrl(baseURL);
         }
         public void GoToControlPage()
         {
