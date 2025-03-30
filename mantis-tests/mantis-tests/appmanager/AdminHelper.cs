@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using OpenQA.Selenium;
 using SimpleBrowser.WebDriver;
+using static System.Net.WebRequestMethods;
 
 namespace mantis_tests
 {
@@ -24,11 +25,14 @@ namespace mantis_tests
         public void DeleteAccount(AccountData account)
         {
            IWebDriver driver = OpenAppAndLogin();
+            driver.Url = "http://localhost/mantisbt-2.2.0/manage_user_edit_page.php?user_id=" + account.Id;
+            driver.FindElement(By.CssSelector("input[value='Удалить учетную запись']")).Click();
+
         }
 
         private IWebDriver OpenAppAndLogin()
         {
-            IWebDriver driver = new SimpleBrowserDriver();
+            
             driver.Url = baseUrl;
             driver.FindElement(By.Name("username")).SendKeys("administrator");
             driver.FindElement(By.Name("password")).SendKeys("root"); 
