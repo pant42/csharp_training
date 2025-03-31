@@ -39,8 +39,8 @@ namespace mantis_tests
             if (projects == null || projects.Length == 0)
             {
                 Mantis.ProjectData project = new Mantis.ProjectData();
-                project.name = GeneratedRandAzNub(5);
-                project.description = GeneratedRandAzNub(8);
+                project.name = "randAPI" + GeneratedRandAzNub(5);
+                project.description = "randAPI" + GeneratedRandAzNub(8);
 
                 client.mc_project_add("administrator", "root", project);
                 Console.WriteLine("Создан новый проект: " + project.name);

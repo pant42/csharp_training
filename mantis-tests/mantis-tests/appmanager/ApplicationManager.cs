@@ -34,7 +34,7 @@ namespace mantis_tests
             driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(1);
 
             // Базовые URL
-            baseUrl = "http://localhost/mantisbt-2.22.1/login_page.php?return=%2Fmantisbt-2.22.1%2Faccount_page.php";
+            baseUrl = "http://localhost/mantisbt-2.22.1/";
             controlPageUrl = "http://localhost/mantisbt-2.22.1/manage_overview_page.php";
 
             // Инициализация хелперов (в порядке зависимости)

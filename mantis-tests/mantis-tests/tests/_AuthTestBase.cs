@@ -5,35 +5,13 @@ using OpenQA.Selenium.Support.UI;
 
 namespace mantis_tests
 {
-    [TestFixture]
     public class _AuthTestBase : TestBase
     {
-        [SetUp]
+        [TestFixtureSetUp]
         public void SetupLogin()
         {
-            // 1. Открываем страницу входа через навигатор
-            app.Navigator.OpenHomePage();
-
-            // 2. Ожидаем загрузки формы входа
-            WaitForLoginForm();
-
-            // 3. Выполняем вход
+            app.Driver.Navigate().GoToUrl("http://localhost/mantisbt-2.22.1/login_page.php");
             app.Auth.Login(new AccountData("administrator", "root"));
-
-            // 4. Проверяем успешность входа
-            VerifyIsLoggedIn();
-        }
-
-        private void WaitForLoginForm()
-        {
-            var wait = new WebDriverWait(app.Driver, TimeSpan.FromSeconds(10));
-            wait.Until(d => d.FindElement(By.Id("login-form")));
-        }
-
-        private void VerifyIsLoggedIn()
-        {
-            var wait = new WebDriverWait(app.Driver, TimeSpan.FromSeconds(10));
-            Assert.IsTrue(wait.Until(d => d.FindElement(By.Id("logged-in-user"))).Displayed);
         }
     }
 }

@@ -31,15 +31,15 @@ namespace mantis_tests
             {
                 return;
             }
-            driver.FindElement(By.XPath("//a[@href='/mantisbt-2.2.0/manage_overview_page.php']")).Click();
+            driver.FindElement(By.XPath("//a[@href='/mantisbt-2.22.1/manage_overview_page.php']")).Click();
         }
         public void GoToProjectPage()
         {
-            if (driver.Url == "http://localhost/mantisbt-2.2.0/manage_proj_page.php")
+            if (driver.Url == "http://localhost/mantisbt-2.22.1/manage_proj_page.php")
             {
                 return;
             }
-            driver.FindElement(By.XPath("//a[@href='/mantisbt-2.2.0/manage_proj_page.php']")).Click();
+            driver.FindElement(By.XPath("//a[@href='/mantisbt-2.22.1/manage_proj_page.php']")).Click();
         }
     }
 }

@@ -45,7 +45,8 @@ namespace mantis_tests
             List<Mantis.ProjectData> beforeDeletionList = app.API.GetProjectsByApi().ToList();
 
             // Удаляем проект через UI
-            ProjectData projectToDelete = app.Project.TakeProject();
+            app.Project.OpenControlPage();
+            ProjectData projectToDelete = app.Project.TakeProject();            
             app.Project.DeleteFirstProject(projectToDelete);
 
             // Получаем список ПОСЛЕ удаления (через API)
