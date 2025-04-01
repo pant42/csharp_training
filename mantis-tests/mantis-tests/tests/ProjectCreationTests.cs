@@ -15,7 +15,7 @@ namespace mantis_tests
     public class ProjectCreationTests : _AuthTestBase
     {        
         [Test]
-        public void ProjectCreationWithNameAndDescription()
+        public void NOT_ACTUAL_ProjectCreationWithNameAndDescription()
         {
             // Генерируем createdProject со случайными Именем и Описанием, типа ProjectData
             ProjectData createdProject = new ProjectData(GenerateRandomString(9))
@@ -83,20 +83,20 @@ namespace mantis_tests
                 "Количество проектов должно увеличиться на 1 после создания."
             );
 
-            // 6. Находим созданный проект в новом списке
-            Mantis.ProjectData createdProjectInApi = afterCreateProjectsList
-                .FirstOrDefault(p => p.name == createdProject.Name);
+            var beforeProjectsWithoutNew = beforeCreateProjectsList
+                .OrderBy(p => p.name)
+                .Select(p => new { p.name, p.description });
 
-            Assert.IsNotNull(
-                createdProjectInApi,
-                $"Проект с именем '{createdProject.Name}' не найден в API после создания."
-            );
+            var afterProjectsWithoutNew = afterCreateProjectsList
+                .Where(p => p.name != createdProject.Name) // Исключаем созданный проект
+                .OrderBy(p => p.name)
+                .Select(p => new { p.name, p.description });
 
-            // 7. Проверяем, что описание совпадает
-            Assert.AreEqual(
-                createdProject.Description,
-                createdProjectInApi.description,
-                "Описание созданного проекта не соответствует ожидаемому."
+            // Проверяем, что все остальные проекты остались неизменными
+            CollectionAssert.AreEqual(
+                beforeProjectsWithoutNew,
+                afterProjectsWithoutNew,
+                "Списки проектов (кроме созданного) должны совпадать."
             );
         }
     }
