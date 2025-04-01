@@ -14,20 +14,22 @@ namespace mantis_tests
 
         public void CreateProject(ProjectData projectData)
         {
+            manager.Navigator.GoToControlPage();
             manager.Navigator.GoToProjectPage();
             InitProjectCreation();
             FillProjectForm(projectData);
             ApplyProjectCreation();
             // Ожидание кнопки на окне списка проектов "Управление проектами"
-            By manageProjectsLinkLocator = By.XPath("//input[@value='создать новый проект']']");                        
+            By manageProjectsLinkLocator = By.XPath("//button[text()='Создать новый проект']");                        
             WaitForElement(manageProjectsLinkLocator);
 
             projectCache = null; // Очистка кэша
         }
         public void InitProjectCreation()
         {
-            driver.FindElement(By.XPath("//input[@value='создать новый проект']")).Click();
+            driver.FindElement(By.XPath("//button[text()='Создать новый проект']")).Click();
         }
+
         public void FillProjectForm(ProjectData projectData)
         {
             driver.FindElement(By.Id("project-name")).Click();

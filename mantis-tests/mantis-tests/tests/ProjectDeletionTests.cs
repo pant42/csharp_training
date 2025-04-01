@@ -38,26 +38,41 @@ namespace mantis_tests
         [Test]
         public void ProjectDeletionCheckByApi()
         {
-            // Предусловие
+            // 1. Предусловие: гарантируем наличие проекта
             app.API.ThereAlwaysSomeProjectByApi();
 
-            // Получаем список проектов ДО теста (через API)
-            List<Mantis.ProjectData> beforeDeletionList = app.API.GetProjectsByApi().ToList();
+            // 2. Получаем список проектов ДО удаления (API)
+            List<Mantis.ProjectData> beforeDelete = app.API.GetProjectsByApi().ToList();
 
-            // Удаляем проект через UI
+            // 3. Удаляем проект через UI
             app.Project.OpenControlPage();
-            ProjectData projectToDelete = app.Project.TakeProject();            
+            ProjectData projectToDelete = app.Project.TakeProject();
             app.Project.DeleteFirstProject(projectToDelete);
 
-            // Получаем список ПОСЛЕ удаления (через API)
-            List<Mantis.ProjectData> afterDeleteList = app.API.GetProjectsByApi().ToList();
-            // Удаляем проект из исходного списка
-            beforeDeletionList.RemoveAll(p => p.id == projectToDelete.Id);
+            // 4. Получаем список ПОСЛЕ удаления (API)
+            List<Mantis.ProjectData> afterDelete = app.API.GetProjectsByApi().ToList();
 
-            // Сортируем и сравниваем
-            beforeDeletionList.Sort((p1, p2) => p1.name.CompareTo(p2.name));
-            afterDeleteList.Sort((p1, p2) => p1.name.CompareTo(p2.name));
-            Assert.AreEqual(beforeDeletionList.Count, afterDeleteList.Count);
+            // 5. Проверки:
+            // - Количество уменьшилось на 1
+            Assert.AreEqual(beforeDelete.Count - 1, afterDelete.Count,
+                "Количество проектов должно уменьшиться на 1");
+
+            // - Удалённого проекта нет в новом списке
+            Assert.IsFalse(afterDelete.Any(p => p.id == projectToDelete.Id),
+                $"Проект с ID={projectToDelete.Id} не был удалён");
+
+            // - Все оставшиеся проекты совпадают
+            var expectedProjects = beforeDelete
+                .Where(p => p.id != projectToDelete.Id)
+                .OrderBy(p => p.name)
+                .Select(p => p.name);
+
+            var actualProjects = afterDelete
+                .OrderBy(p => p.name)
+                .Select(p => p.name);
+
+            CollectionAssert.AreEqual(expectedProjects, actualProjects,
+                "Списки проектов не совпадают после удаления");
         }
     }
 }

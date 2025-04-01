@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
@@ -39,6 +40,8 @@ namespace mantis_tests
             afterCreateProjectsList.Sort();
             Assert.AreEqual(beforeCreatejectsList, afterCreateProjectsList);
         }
+
+
         [Test]
 
         public void testtest()
@@ -52,6 +55,49 @@ namespace mantis_tests
             {
                 Console.WriteLine($"ID: {project.Id}, Name: {project.Name}, Description: {project.Description}");
             }
+        }
+
+
+        [Test]
+        public void ProjectCreationByApi()
+        {
+            // 1. Генерируем данные для нового проекта
+            ProjectData createdProject = new ProjectData(GenerateRandomString(9))
+            {
+                Description = GenerateRandomString(30)
+            };
+
+            // 2. Получаем список проектов ДО создания (через API)
+            List<Mantis.ProjectData> beforeCreateProjectsList = app.API.GetProjectsByApi().ToList();
+
+            // 3. Создаём проект через UI
+            app.Project.CreateProject(createdProject);
+
+            // 4. Получаем список проектов ПОСЛЕ создания (через API)
+            List<Mantis.ProjectData> afterCreateProjectsList = app.API.GetProjectsByApi().ToList();
+
+            // 5. Проверяем, что количество проектов увеличилось на 1
+            Assert.AreEqual(
+                beforeCreateProjectsList.Count + 1,
+                afterCreateProjectsList.Count,
+                "Количество проектов должно увеличиться на 1 после создания."
+            );
+
+            // 6. Находим созданный проект в новом списке
+            Mantis.ProjectData createdProjectInApi = afterCreateProjectsList
+                .FirstOrDefault(p => p.name == createdProject.Name);
+
+            Assert.IsNotNull(
+                createdProjectInApi,
+                $"Проект с именем '{createdProject.Name}' не найден в API после создания."
+            );
+
+            // 7. Проверяем, что описание совпадает
+            Assert.AreEqual(
+                createdProject.Description,
+                createdProjectInApi.description,
+                "Описание созданного проекта не соответствует ожидаемому."
+            );
         }
     }
 }
